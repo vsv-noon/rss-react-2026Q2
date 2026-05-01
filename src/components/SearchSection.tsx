@@ -1,7 +1,36 @@
-import { Component } from 'react';
+import { Component, type ChangeEvent } from 'react';
+import { apiFetch } from '../services/api';
+import type { FetchedCharacter } from '../types/types';
 
-export class SearchSection extends Component {
-  static propTypes = {};
+interface Props {
+  setFetchedCharacter: (response: FetchedCharacter) => void;
+}
+
+interface SearchSectionState {
+  query: string;
+}
+export class SearchSection extends Component<Props, SearchSectionState> {
+  constructor(props: Props) {
+    super(props);
+
+    this.state = {
+      query: '',
+    };
+  }
+
+  componentDidMount(): void {
+    this.handleSearch();
+  }
+
+  handleInputChange(event: ChangeEvent<HTMLInputElement>) {
+    this.setState({ query: event.target.value });
+  }
+
+  async handleSearch() {
+    const { query } = this.state;
+    const fetchedCharacter = await apiFetch(query);
+    this.props.setFetchedCharacter(fetchedCharacter);
+  }
 
   render() {
     return (
@@ -9,10 +38,15 @@ export class SearchSection extends Component {
         <input
           className="h-10 w-100 bg-white rounded-lg outline-0 px-3 py-2"
           type="search"
+          value={this.state.query}
+          onChange={this.handleInputChange.bind(this)}
           placeholder="Search..."
           autoComplete="off"
         />
-        <button className="h-10 bg-gray-300 rounded-lg px-5 py-2 cursor-pointer">
+        <button
+          className="h-10 bg-gray-300 rounded-lg px-5 py-2 cursor-pointer"
+          onClick={this.handleSearch.bind(this)}
+        >
           Search
         </button>
       </div>
