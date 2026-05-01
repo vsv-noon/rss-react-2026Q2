@@ -6,21 +6,26 @@ import type { FetchedCharacter } from '../types/types';
 interface MainPageState {
   fetchedCharacter: FetchedCharacter | null;
   isError: boolean;
+  isLoading: boolean;
 }
 
 export class MainPage extends Component {
   state: MainPageState = {
     fetchedCharacter: null,
     isError: false,
+    isLoading: false,
   };
 
   setFetchedCharacter(fetchedCharacter: FetchedCharacter) {
     this.setState({ fetchedCharacter });
   }
 
+  setIsLoading(isLoading: boolean) {
+    this.setState({ isLoading });
+  }
+
   handleErrorClick() {
     this.setState({ isError: true });
-    console.log('error');
   }
 
   render() {
@@ -31,6 +36,7 @@ export class MainPage extends Component {
     return (
       <div className="max-w-7xl m-auto">
         <SearchSection
+          setIsLoading={this.setIsLoading.bind(this)}
           setFetchedCharacter={this.setFetchedCharacter.bind(this)}
         />
         <button
@@ -39,7 +45,10 @@ export class MainPage extends Component {
         >
           Create an error!
         </button>
-        <ResultList fetchedCharacter={this.state.fetchedCharacter} />
+        <ResultList
+          isLoading={this.state.isLoading}
+          fetchedCharacter={this.state.fetchedCharacter}
+        />
       </div>
     );
   }

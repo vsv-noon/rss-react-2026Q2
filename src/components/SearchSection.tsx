@@ -4,6 +4,7 @@ import type { FetchedCharacter } from '../types/types';
 
 interface Props {
   setFetchedCharacter: (response: FetchedCharacter) => void;
+  setIsLoading: (isLoading: boolean) => void;
 }
 
 interface SearchSectionState {
@@ -40,9 +41,13 @@ export class SearchSection extends Component<Props, SearchSectionState> {
   }
 
   async handleSearch() {
+    this.props.setIsLoading(true);
+
     const { query } = this.state;
     const fetchedCharacter = await apiFetch(query);
+
     this.props.setFetchedCharacter(fetchedCharacter);
+    this.props.setIsLoading(false);
     localStorage.setItem('searchQuery', query);
   }
 
