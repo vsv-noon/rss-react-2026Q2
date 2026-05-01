@@ -9,6 +9,7 @@ type Props = {
   name: string;
   character: Character;
 };
+
 export class Card extends Component<Props> {
   render() {
     const { character } = this.props;

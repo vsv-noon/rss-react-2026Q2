@@ -1,4 +1,4 @@
-import { Component, type ChangeEvent } from 'react';
+import { Component, type ChangeEvent, type KeyboardEvent } from 'react';
 import { apiFetch } from '../services/api';
 import type { FetchedCharacter } from '../types/types';
 
@@ -9,6 +9,7 @@ interface Props {
 interface SearchSectionState {
   query: string;
 }
+
 export class SearchSection extends Component<Props, SearchSectionState> {
   constructor(props: Props) {
     super(props);
@@ -19,6 +20,12 @@ export class SearchSection extends Component<Props, SearchSectionState> {
   }
 
   componentDidMount(): void {
+    const lastQuery = localStorage.getItem('searchQuery');
+
+    if (lastQuery) {
+      this.setState({ query: lastQuery }, this.handleSearch);
+    }
+
     this.handleSearch();
   }
 
@@ -26,10 +33,17 @@ export class SearchSection extends Component<Props, SearchSectionState> {
     this.setState({ query: event.target.value });
   }
 
+  handleKeyDown(event: KeyboardEvent<HTMLInputElement>) {
+    if (event.key === 'Enter') {
+      this.handleSearch();
+    }
+  }
+
   async handleSearch() {
     const { query } = this.state;
     const fetchedCharacter = await apiFetch(query);
     this.props.setFetchedCharacter(fetchedCharacter);
+    localStorage.setItem('searchQuery', query);
   }
 
   render() {
@@ -40,6 +54,7 @@ export class SearchSection extends Component<Props, SearchSectionState> {
           type="search"
           value={this.state.query}
           onChange={this.handleInputChange.bind(this)}
+          onKeyDown={this.handleKeyDown.bind(this)}
           placeholder="Search..."
           autoComplete="off"
         />

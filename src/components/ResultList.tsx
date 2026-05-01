@@ -5,6 +5,7 @@ import Card from './Card';
 interface Props {
   fetchedCharacter: FetchedCharacter | null;
 }
+
 export class ResultList extends Component<Props> {
   state = {};
 
