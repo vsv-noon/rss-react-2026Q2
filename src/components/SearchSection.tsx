@@ -21,7 +21,7 @@ export class SearchSection extends Component<Props, SearchSectionState> {
   }
 
   componentDidMount(): void {
-    const lastQuery = localStorage.getItem('searchQuery');
+    const lastQuery = localStorage.getItem('searchTerm');
 
     if (lastQuery) {
       this.setState({ query: lastQuery }, this.handleSearch);
@@ -41,14 +41,17 @@ export class SearchSection extends Component<Props, SearchSectionState> {
   }
 
   async handleSearch() {
-    this.props.setIsLoading(true);
-
+    const lastQuery = localStorage.getItem('searchTerm');
     const { query } = this.state;
-    const fetchedCharacter = await apiFetch(query);
+    const trimmedQuery = query.trim();
 
-    this.props.setFetchedCharacter(fetchedCharacter);
-    this.props.setIsLoading(false);
-    localStorage.setItem('searchQuery', query);
+    if (!lastQuery || lastQuery !== trimmedQuery) {
+      const fetchedCharacter = await apiFetch(trimmedQuery);
+
+      this.props.setFetchedCharacter(fetchedCharacter);
+      this.props.setIsLoading(false);
+      localStorage.setItem('searchTerm', trimmedQuery);
+    }
   }
 
   render() {
