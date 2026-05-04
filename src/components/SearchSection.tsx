@@ -9,6 +9,7 @@ interface Props {
 
 interface SearchSectionState {
   query: string;
+  lastSearch: string;
 }
 
 export class SearchSection extends Component<Props, SearchSectionState> {
@@ -17,6 +18,7 @@ export class SearchSection extends Component<Props, SearchSectionState> {
 
     this.state = {
       query: '',
+      lastSearch: '',
     };
   }
 
@@ -41,13 +43,13 @@ export class SearchSection extends Component<Props, SearchSectionState> {
   }
 
   async handleSearch() {
-    const lastQuery = localStorage.getItem('searchTerm');
-    const { query } = this.state;
+    const { query, lastSearch } = this.state;
     const trimmedQuery = query.trim();
 
-    if (!lastQuery || lastQuery !== trimmedQuery) {
+    if (!lastSearch || trimmedQuery !== lastSearch) {
       const fetchedCharacter = await apiFetch(trimmedQuery);
 
+      this.setState({ lastSearch: trimmedQuery });
       this.props.setFetchedCharacter(fetchedCharacter);
       this.props.setIsLoading(false);
       localStorage.setItem('searchTerm', trimmedQuery);
