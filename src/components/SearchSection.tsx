@@ -47,6 +47,8 @@ export class SearchSection extends Component<Props, SearchSectionState> {
     const trimmedQuery = query.trim();
 
     if (!lastSearch || trimmedQuery !== lastSearch) {
+      this.props.setIsLoading(true);
+
       const fetchedCharacter = await apiFetch(trimmedQuery);
 
       this.setState({ lastSearch: trimmedQuery });
