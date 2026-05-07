@@ -45,16 +45,21 @@ export class SearchSection extends Component<Props, SearchSectionState> {
   async handleSearch() {
     const { query, lastSearch } = this.state;
     const trimmedQuery = query.trim();
+    try {
+      if (!lastSearch || trimmedQuery !== lastSearch) {
+        this.props.setIsLoading(true);
 
-    if (!lastSearch || trimmedQuery !== lastSearch) {
-      this.props.setIsLoading(true);
+        const fetchedCharacter = await apiFetch(trimmedQuery);
 
-      const fetchedCharacter = await apiFetch(trimmedQuery);
-
-      this.setState({ lastSearch: trimmedQuery });
-      this.props.setFetchedCharacter(fetchedCharacter);
-      this.props.setIsLoading(false);
-      localStorage.setItem('searchTerm', trimmedQuery);
+        this.setState({ lastSearch: trimmedQuery });
+        this.props.setFetchedCharacter(fetchedCharacter);
+        this.props.setIsLoading(false);
+        localStorage.setItem('searchTerm', trimmedQuery);
+      }
+      this.setState({ query: trimmedQuery });
+    } catch (error) {
+      const typedError = error as Error;
+      throw new Error('Failed to fetch characters', typedError);
     }
   }
 

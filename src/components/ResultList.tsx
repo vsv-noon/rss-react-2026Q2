@@ -18,7 +18,7 @@ export class ResultList extends Component<Props> {
         <div className="flex flex-wrap justify-center gap-3">
           {this.props.isLoading && <Loader />}
 
-          {!this.props.isLoading && this.props.fetchedCharacter?.error && (
+          {this.props.fetchedCharacter?.error && (
             <h3>{`${this.props.fetchedCharacter.error}`}</h3>
           )}
           {!this.props.isLoading &&
