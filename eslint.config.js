@@ -21,7 +21,18 @@ export default defineConfig([
       eslintConfigPrettier,
     ],
     languageOptions: {
+      ecmaVersion: 2020,
       globals: globals.browser,
+    },
+    rules: {
+      'react/prop-types': 'off',
+      'react/react-in-jsx-scope': 'off',
+      '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+    },
+    settings: {
+      react: {
+        version: 'detect',
+      },
     },
   },
 ]);
