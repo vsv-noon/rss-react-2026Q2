@@ -11,8 +11,8 @@
     "preview": "vite preview",
     "format:fix": "prettier --write .",
     "prepare": "husky && chmod ug+x .husky/*",
-    "test": "vitest",
-    "coverage": "vitest run --coverage"
+    "test": "NODE_OPTIONS='--no-experimental-webstorage' vitest",
+    "coverage": "NODE_OPTIONS='--no-experimental-webstorage' vitest run --coverage"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
