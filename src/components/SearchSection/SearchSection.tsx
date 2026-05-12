@@ -6,6 +6,7 @@ import {
 } from 'react';
 import { apiFetch } from '@/services/api';
 import type { FetchedCharacter } from '@/types/types';
+import useLocalStorage from '@/hooks/useLocalStorage';
 
 import styles from './SearchSection.module.scss';
 
@@ -18,7 +19,7 @@ const SearchSection: React.FC<SearchSectionProps> = ({
   setFetchedCharacter,
   setIsLoading,
 }) => {
-  const [query, setQuery] = useState(localStorage.getItem('searchTerm') || '');
+  const [query, setQuery] = useLocalStorage('searchTerm', '');
   const [inputValue, setInputValue] = useState<string>(query);
 
   useEffect(() => {
@@ -29,8 +30,8 @@ const SearchSection: React.FC<SearchSectionProps> = ({
         const fetchedCharacter = await apiFetch(searchQuery);
 
         setFetchedCharacter(fetchedCharacter);
+
         setIsLoading(false);
-        localStorage.setItem('searchTerm', searchQuery);
       } catch (error) {
         const typedError = error as Error;
         throw new Error('Failed to fetch characters', typedError);
@@ -67,10 +68,7 @@ const SearchSection: React.FC<SearchSectionProps> = ({
         placeholder="Search..."
         autoComplete="off"
       />
-      <button
-        className={styles.button}
-        onClick={handleSearchButton}
-      >
+      <button className={styles.button} onClick={handleSearchButton}>
         Search
       </button>
     </div>
