@@ -24,9 +24,9 @@
   padding: rem(8) rem(20);
   background-color: var(--color-gray-300);
   cursor: pointer;
+  transition: all 0.3s ease-in-out;
 }
 
 .button:hover {
   background-color: var(--color-gray-400);
-  transition: all 0.3s ease-in-out;
 }
