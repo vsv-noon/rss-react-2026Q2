@@ -1,7 +1,7 @@
 import { describe, test, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import ResultList from './ResultList';
-import { type FetchedCharacter } from '../types/types';
+import { type FetchedCharacter } from '@/types/types';
 
 describe('ResultList', () => {
   const mockCharacter = {

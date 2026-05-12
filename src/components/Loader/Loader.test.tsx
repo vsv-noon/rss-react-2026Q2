@@ -1,6 +1,6 @@
 import { describe, test, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import ResultList from './ResultList';
+import ResultList from '@/components/ResultList';
 
 describe('Loader', () => {
   test('renders loading spinner when isLoading is true', () => {

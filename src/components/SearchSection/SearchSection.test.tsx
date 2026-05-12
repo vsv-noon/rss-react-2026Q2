@@ -1,7 +1,7 @@
 import { describe, test, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, fireEvent, screen, waitFor } from '@testing-library/react';
-import { SearchSection } from './SearchSection';
-import * as api from '../services/api';
+import SearchSection from './SearchSection';
+import * as api from '@/services/api';
 
 describe('SearchSection', () => {
   const setFetchedCharacter = vi.fn();

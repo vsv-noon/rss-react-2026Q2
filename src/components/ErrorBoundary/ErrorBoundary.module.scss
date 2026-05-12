@@ -1,0 +1,13 @@
+.errorBoundary {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.title {
+  font-size: rem(30);
+  line-height: rem(36);
+  font-weight: 700;
+}

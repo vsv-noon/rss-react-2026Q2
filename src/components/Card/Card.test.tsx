@@ -4,10 +4,18 @@ import Card from './Card';
 
 describe('Card', () => {
   const character = {
+    id: 1,
     name: 'Rick Sanchez',
-    status: 'alive',
-    species: 'human',
+    status: 'Alive',
+    species: 'Human',
+    type: '',
+    gender: 'Male',
+    origin: { name: 'Earth', url: '' },
+    location: { name: 'Earth', url: '' },
     image: 'https://example.com/rick.png',
+    episode: [],
+    url: '',
+    created: '',
   };
   test('renders the character image with correct src and alt', () => {
     render(<Card name="Test Card" character={character} />);
@@ -24,10 +32,18 @@ describe('Card', () => {
 
   test('renders different character props correctly', () => {
     const newCharacter = {
+      id: 2,
       name: 'Morty Smith',
-      status: 'alive',
-      species: 'human',
-      image: 'https://example.com/rick.png',
+      status: 'Alive',
+      species: 'Human',
+      type: '',
+      gender: 'Male',
+      origin: { name: 'Earth', url: '' },
+      location: { name: 'Earth', url: '' },
+      image: 'https://example.com/morty.png',
+      episode: [],
+      url: '',
+      created: '',
     };
     render(<Card name="Morty Card" character={newCharacter} />);
     const img = screen.getByRole('img');

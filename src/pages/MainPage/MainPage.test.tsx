@@ -1,8 +1,8 @@
 import { vi, describe, test, expect } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { MainPage } from './MainPage';
+import MainPage from './MainPage';
 
-vi.mock('../components/SearchSection', () => ({
+vi.mock('@/components/SearchSection', () => ({
   default: ({
     setIsLoading,
     setFetchedCharacter,
@@ -19,7 +19,7 @@ vi.mock('../components/SearchSection', () => ({
   ),
 }));
 
-vi.mock('../components/ResultList', () => ({
+vi.mock('@/components/ResultList', () => ({
   default: ({
     isLoading,
     fetchedCharacter,

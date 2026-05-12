@@ -1,5 +1,7 @@
 import { Component, type ErrorInfo, type ReactNode } from 'react';
 
+import styles from './ErrorBoundary.module.scss';
+
 interface Props {
   children: ReactNode;
 }
@@ -25,8 +27,8 @@ export class ErrorBoundary extends Component<Props, State> {
   render() {
     if (this.state.hasError) {
       return (
-        <div className="flex flex-col h-lvh justify-center items-center">
-          <h1 className="text-3xl font-bold">Something went wrong!</h1>
+        <div className={styles.errorBoundary}>
+          <h1 className={styles.title}>Something went wrong!</h1>
           <img src="./error.png" alt="error" />
           <p>Reload page, please.</p>
         </div>
