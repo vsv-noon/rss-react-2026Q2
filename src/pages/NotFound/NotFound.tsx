@@ -7,7 +7,7 @@ const NotFound: React.FC = () => {
       <h1 className={styles.title}>
         404 - Page Not Found <span>😕</span>
       </h1>
-      <Link to="/" className={styles.button}>
+      <Link to="/" className={styles.button} viewTransition>
         Home
       </Link>
     </div>

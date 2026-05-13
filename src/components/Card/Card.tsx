@@ -1,12 +1,15 @@
+import { Link } from 'react-router-dom';
 import type { CardProps } from './types';
+import styles from './Card.module.scss'
 
-const Card: React.FC<CardProps> = ({ name, character }) => {
+const Card: React.FC<CardProps> = ({ character }) => {
   return (
-    <div>
+    <div className={styles.card}>
+      <Link to={`details/${character.id}`} onClick={(e) => e.stopPropagation()} viewTransition>
       <img src={character.image} alt={character.name} />
-      <h2>{name}</h2>
-      <p>Status: {character.status}</p>
-      <p>Species: {character.species}</p>
+      <h5>{character.name}</h5>
+
+      </Link>
     </div>
   );
 };

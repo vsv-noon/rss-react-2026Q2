@@ -9,7 +9,6 @@ import type { FetchedCharacter } from '@/types/types';
 import useLocalStorage from '@/hooks/useLocalStorage';
 
 import styles from './SearchSection.module.scss';
-import { NavLink } from 'react-router-dom';
 
 type SearchSectionProps = {
   setFetchedCharacter: (response: FetchedCharacter) => void;
@@ -28,7 +27,7 @@ const SearchSection: React.FC<SearchSectionProps> = ({
       try {
         setIsLoading(true);
 
-        const fetchedCharacter = await apiFetch(searchQuery);
+        const fetchedCharacter = await apiFetch({ searchString: searchQuery });
 
         setFetchedCharacter(fetchedCharacter);
 

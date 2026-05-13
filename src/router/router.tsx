@@ -1,3 +1,4 @@
+import CharacterDetails from '@/components/CharacterDetails';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import RootLayout from '@/layouts/RootLayout';
 import About from '@/pages/About';
@@ -15,8 +16,14 @@ export const router = createBrowserRouter([
     ),
     children: [
       {
-        index: true,
+        path: "/",
         element: <MainPage />,
+        children: [
+          {
+            path: 'details/:id',
+            element: <CharacterDetails />,
+          },
+        ],
       },
       {
         path: 'about',

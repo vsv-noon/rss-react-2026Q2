@@ -19,11 +19,7 @@ const ResultList: React.FC<ResultListProps> = ({
         {!isLoading &&
           fetchedCharacter?.results &&
           fetchedCharacter.results.map((character) => (
-            <Card
-              key={character.id}
-              name={character.name}
-              character={character}
-            />
+            <Card key={character.id} character={character} />
           ))}
       </div>
     </div>

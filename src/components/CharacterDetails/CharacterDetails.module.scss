@@ -1,0 +1,41 @@
+.detailsPanel {
+  display: flex;
+  position: sticky;
+  position: -webkit-sticky;
+  top: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  justify-content: center;
+  align-items: center;
+  width: rem(300);
+  height: 80vh;
+  background-color: var(--color-amber-100);
+}
+
+.detailsCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: rem(4);
+  box-shadow: 0 rem(12) rem(24) rgba(0, 0, 0, 0.2);
+}
+
+.closeBtn {
+  position: absolute;
+  top: rem(-35);
+  right: rem(5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: rem(30);
+  border: rem(1) solid var(--color-gray-500);
+  border-radius: rem(8);
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.closeBtn:hover {
+  color: var(--color-amber-500);
+  border: rem(1) solid var(--color-gray-400);
+  box-shadow: 0 rem(12) rem(24) rgba(0, 0, 0, 0.2);
+}

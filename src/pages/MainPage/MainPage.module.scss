@@ -1,6 +1,7 @@
 .mainPageContainer {
   margin: 0 auto;
   max-width: rem(1280);
+  overflow: visible;
 }
 
 .button {
@@ -11,4 +12,9 @@
   padding: 8px 0;
   border: transparent;
   cursor: pointer;
+}
+
+.outletContainer {
+  display: flex;
+  transition: all 0.3s ease-in-out;
 }
