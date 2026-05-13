@@ -3,9 +3,13 @@
 :root {
   --color-white: #ffffff;
   --color-amber-100: #fef3c7;
+  --color-amber-300: #fcd34d;
   --color-amber-500: #f59e0b;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
   --color-gray-300: #d1d5db;
   --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
   --color-red-500: #ff0000;
   --main-font: 'Inter', sans-serif;
 }

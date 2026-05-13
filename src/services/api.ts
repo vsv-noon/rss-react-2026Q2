@@ -1,4 +1,4 @@
-const BASE_URL: string = 'https://rickandmortyapi.com/api/character/';
+import { BASE_URL } from './constants';
 
 export async function apiFetch(searchString: string) {
   const url = new URL(BASE_URL);

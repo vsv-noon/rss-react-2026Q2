@@ -9,6 +9,7 @@ import type { FetchedCharacter } from '@/types/types';
 import useLocalStorage from '@/hooks/useLocalStorage';
 
 import styles from './SearchSection.module.scss';
+import { NavLink } from 'react-router-dom';
 
 type SearchSectionProps = {
   setFetchedCharacter: (response: FetchedCharacter) => void;

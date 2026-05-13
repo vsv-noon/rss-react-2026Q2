@@ -1,0 +1,18 @@
+.header {
+  max-width: rem(1280);
+  margin: 0 auto;
+  padding: rem(5);
+}
+
+.header a {
+  text-decoration: none;
+}
+
+.navLink {
+  color: #000;
+}
+
+.isActive {
+  color: grey;
+  pointer-events: none;
+}
