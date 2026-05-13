@@ -7,7 +7,6 @@ const About: React.FC = () => {
     <div className={styles.about}>
       <h1>About</h1>
       <div className={styles.text}>
-        
         <h3> What is this?</h3>
         <p>
           App to browse and search characters and show details from Rick & Morty
@@ -36,7 +35,6 @@ const About: React.FC = () => {
       >
         RS School React course
       </Link>
-      
     </div>
   );
 };

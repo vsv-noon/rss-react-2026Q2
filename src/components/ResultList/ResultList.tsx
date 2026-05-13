@@ -4,7 +4,7 @@ import type { ResultListProps } from './types';
 import styles from './ResultList.module.scss';
 
 const ResultList: React.FC<ResultListProps> = ({
-  fetchedCharacter,
+  characters,
   isLoading,
 }) => {
   return (
@@ -13,12 +13,12 @@ const ResultList: React.FC<ResultListProps> = ({
       <div className={styles.charactersList}>
         {isLoading && <Loader />}
 
-        {!isLoading && fetchedCharacter?.error && (
-          <h3>{`${fetchedCharacter.error}`}</h3>
+        {!isLoading && characters?.error && (
+          <h3>{`${characters.error}`}</h3>
         )}
         {!isLoading &&
-          fetchedCharacter?.results &&
-          fetchedCharacter.results.map((character) => (
+          characters?.results &&
+          characters.results.map((character) => (
             <Card key={character.id} character={character} />
           ))}
       </div>

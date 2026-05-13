@@ -1,7 +1,7 @@
 import { describe, test, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import ResultList from './ResultList';
-import { type FetchedCharacter } from '@/types/types';
+import { type ApiResponse } from '@/types/types';
 
 describe('ResultList', () => {
   const mockCharacter = {
@@ -19,21 +19,21 @@ describe('ResultList', () => {
     created: '',
   };
 
-  test('renders character cards when fetchedCharacter has results and not loading', () => {
-    const data: FetchedCharacter = { results: [mockCharacter] };
-    render(<ResultList isLoading={false} fetchedCharacter={data} />);
+  test('renders character cards when characters has results and not loading', () => {
+    const data: ApiResponse = { results: [mockCharacter] };
+    render(<ResultList isLoading={false} characters={data} />);
     expect(screen.getByText(/Rick Sanchez/i)).toBeInTheDocument();
   });
 
-  test('renders nothing when fetchedCharacter is null and not loading', () => {
-    render(<ResultList isLoading={false} fetchedCharacter={null} />);
+  test('renders nothing when characters is null and not loading', () => {
+    render(<ResultList isLoading={false} characters={null} />);
     expect(screen.queryByAltText(/loading/i)).not.toBeInTheDocument();
     expect(screen.queryByRole('heading', { level: 3 })).not.toBeInTheDocument();
   });
 
-  test('renders error message when fetchedCharacter has error and not loading', () => {
-    const errorData: FetchedCharacter = { error: 'Not found' };
-    render(<ResultList isLoading={false} fetchedCharacter={errorData} />);
+  test('renders error message when characters has error and not loading', () => {
+    const errorData: ApiResponse = { error: 'Not found' };
+    render(<ResultList isLoading={false} characters={errorData} />);
     expect(screen.getByText(/Not found/i)).toBeInTheDocument();
   });
 });

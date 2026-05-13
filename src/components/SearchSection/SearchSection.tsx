@@ -1,45 +1,9 @@
-import {
-  useEffect,
-  useState,
-  type ChangeEvent,
-  type KeyboardEvent,
-} from 'react';
-import { apiFetch } from '@/services/api';
-import type { FetchedCharacter } from '@/types/types';
-import useLocalStorage from '@/hooks/useLocalStorage';
-
+import { useState, type ChangeEvent, type KeyboardEvent } from 'react';
+import type { SearchSectionProps } from './types';
 import styles from './SearchSection.module.scss';
 
-type SearchSectionProps = {
-  setFetchedCharacter: (response: FetchedCharacter) => void;
-  setIsLoading: (isLoading: boolean) => void;
-};
-
-const SearchSection: React.FC<SearchSectionProps> = ({
-  setFetchedCharacter,
-  setIsLoading,
-}) => {
-  const [query, setQuery] = useLocalStorage('searchTerm', '');
+const SearchSection: React.FC<SearchSectionProps> = ({ query, setQuery }) => {
   const [inputValue, setInputValue] = useState<string>(query);
-
-  useEffect(() => {
-    const handleSearch = async (searchQuery: string) => {
-      try {
-        setIsLoading(true);
-
-        const fetchedCharacter = await apiFetch({ searchString: searchQuery });
-
-        setFetchedCharacter(fetchedCharacter);
-
-        setIsLoading(false);
-      } catch (error) {
-        const typedError = error as Error;
-        throw new Error('Failed to fetch characters', typedError);
-      }
-    };
-
-    handleSearch(query);
-  }, [query, setFetchedCharacter, setIsLoading]);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);

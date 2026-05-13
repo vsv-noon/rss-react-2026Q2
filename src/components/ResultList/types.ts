@@ -1,6 +1,6 @@
-import type { FetchedCharacter } from '@/types/types';
+import type { ApiResponse } from '@/types/types';
 
 export type ResultListProps = {
-  fetchedCharacter: FetchedCharacter | null;
+  characters: ApiResponse | null;
   isLoading: boolean;
 };

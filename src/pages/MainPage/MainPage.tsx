@@ -1,17 +1,40 @@
 import SearchSection from '@/components/SearchSection';
 import ResultList from '@/components/ResultList';
-import { useState } from 'react';
-import type { FetchedCharacter } from '@/types/types';
+import { useEffect, useState } from 'react';
+import type { ApiResponse } from '@/types/types';
 
 import styles from './MainPage.module.scss';
 import { Outlet, useNavigate } from 'react-router-dom';
+import useLocalStorage from '@/hooks/useLocalStorage';
+import { apiFetch } from '@/services/api';
 
 const MainPage: React.FC = () => {
-  const [fetchedCharacter, setFetchedCharacter] =
-    useState<FetchedCharacter | null>(null);
+  const [query, setQuery] = useLocalStorage('searchTerm', '');
+  const [characters, setCharacters] = useState<ApiResponse | null>(
+    null
+  );
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleSearch = async (searchQuery: string) => {
+      try {
+        setIsLoading(true);
+
+        const data = await apiFetch({ searchString: searchQuery });
+
+        setCharacters(data);
+
+        setIsLoading(false);
+      } catch (error) {
+        const typedError = error as Error;
+        throw new Error('Failed to fetch characters', typedError);
+      }
+    };
+
+    handleSearch(query);
+  }, [query, setCharacters, setIsLoading]);
 
   const handleCloseCharacterDetails = () => {
     navigate(`/`);
@@ -30,17 +53,14 @@ const MainPage: React.FC = () => {
       className={styles.mainPageContainer}
       onClick={handleCloseCharacterDetails}
     >
-      <SearchSection
-        setIsLoading={setIsLoading}
-        setFetchedCharacter={setFetchedCharacter}
-      />
+      <SearchSection query={query} setQuery={setQuery} />
       <button className={styles.button} onClick={handleErrorClick}>
         Create an error!
       </button>
       <div className={styles.outletContainer}>
-        <ResultList isLoading={isLoading} fetchedCharacter={fetchedCharacter} />
+        <ResultList isLoading={isLoading} characters={characters} />
         <div onClick={(e) => e.stopPropagation()}>
-          <Outlet context={{handleCloseCharacterDetails}} />
+          <Outlet context={{ handleCloseCharacterDetails }} />
         </div>
       </div>
     </div>
