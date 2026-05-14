@@ -1,6 +1,7 @@
-import { describe, test, expect } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import Card from './Card';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('Card', () => {
   const character = {
@@ -17,20 +18,29 @@ describe('Card', () => {
     url: '',
     created: '',
   };
-  test('renders the character image with correct src and alt', () => {
-    render(<Card name="Test Card" character={character} />);
+
+  it('should renders the character image with correct src and alt', () => {
+    render(
+      <MemoryRouter>
+        <Card character={character} />
+      </MemoryRouter>
+    );
     const img = screen.getByRole('img');
     expect(img).toHaveAttribute('src', character.image);
     expect(img).toHaveAttribute('alt', character.name);
   });
 
-  test('renders the provided name in an h2', () => {
-    render(<Card name="Test Card" character={character} />);
-    const heading = screen.getByRole('heading', { level: 2 });
-    expect(heading).toHaveTextContent('Test Card');
+  it('should renders the provided name in an h2', () => {
+    render(
+      <MemoryRouter>
+        <Card character={character} />
+      </MemoryRouter>
+    );
+    const heading = screen.getByRole('heading', { level: 5 });
+    expect(heading).toHaveTextContent('Rick Sanchez');
   });
 
-  test('renders different character props correctly', () => {
+  it('should renders different character props correctly', () => {
     const newCharacter = {
       id: 2,
       name: 'Morty Smith',
@@ -45,11 +55,15 @@ describe('Card', () => {
       url: '',
       created: '',
     };
-    render(<Card name="Morty Card" character={newCharacter} />);
+    render(
+      <MemoryRouter>
+        <Card character={newCharacter} />
+      </MemoryRouter>
+    );
     const img = screen.getByRole('img');
     expect(img).toHaveAttribute('src', newCharacter.image);
     expect(img).toHaveAttribute('alt', newCharacter.name);
-    const heading = screen.getByRole('heading', { level: 2 });
-    expect(heading).toHaveTextContent('Morty Card');
+    const heading = screen.getByRole('heading', { level: 5 });
+    expect(heading).toHaveTextContent('Morty Smith');
   });
 });
