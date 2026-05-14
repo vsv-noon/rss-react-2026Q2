@@ -43,6 +43,7 @@ export default defineConfig({
         '**/*.config.*',
         '**/*.types.*',
         '**/consts.*',
+        '**/constants.*',
         '**/*.test.tsx',
         '**/*.test.ts',
         'src/setupTests.ts',
