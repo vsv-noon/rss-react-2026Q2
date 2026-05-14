@@ -1,106 +1,72 @@
-import { describe, test, expect, vi, beforeEach, afterEach } from 'vitest';
-import { render, fireEvent, screen, waitFor } from '@testing-library/react';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import SearchSection from './SearchSection';
-import * as api from '@/services/api';
 
 describe('SearchSection', () => {
-  const setFetchedCharacter = vi.fn();
-  const setIsLoading = vi.fn();
-  const mockFetchedCharacter = { results: [{ id: 1, name: 'Rick' }] };
+  const mockSetQuery = vi.fn();
 
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.spyOn(api, 'apiFetch').mockResolvedValue(mockFetchedCharacter);
-    localStorage.clear();
   });
 
   afterEach(() => {
     vi.restoreAllMocks();
   });
 
-  test('renders input and button', () => {
-    render(
-      <SearchSection
-        setFetchedCharacter={setFetchedCharacter}
-        setIsLoading={setIsLoading}
-      />
-    );
+  it('should renders input and button', () => {
+    render(<SearchSection query="Rick" setQuery={mockSetQuery} />);
     expect(screen.getByPlaceholderText('Search...')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /search/i })).toBeInTheDocument();
   });
 
-  test('updates input value on change', () => {
-    render(
-      <SearchSection
-        setFetchedCharacter={setFetchedCharacter}
-        setIsLoading={setIsLoading}
-      />
-    );
+  it('should initialized with the value from the query prop', () => {
+    render(<SearchSection query="Rick" setQuery={mockSetQuery} />);
+
     const input = screen.getByPlaceholderText('Search...') as HTMLInputElement;
-    fireEvent.change(input, { target: { value: 'Morty' } });
-    expect(input.value).toBe('Morty');
+    expect(input.value).toBe('Rick');
   });
 
-  test('calls handleSearch on button click', async () => {
-    render(
-      <SearchSection
-        setFetchedCharacter={setFetchedCharacter}
-        setIsLoading={setIsLoading}
-      />
-    );
-    const input = screen.getByPlaceholderText('Search...') as HTMLInputElement;
-    fireEvent.change(input, { target: { value: 'Summer' } });
-    fireEvent.click(screen.getByRole('button', { name: /search/i }));
+  it('should update the internal value on input, but not call setQuery', async () => {
+    render(<SearchSection query="" setQuery={mockSetQuery} />);
+    const input = screen.getByPlaceholderText('Search...');
 
-    await waitFor(() => {
-      expect(setIsLoading).toHaveBeenCalledWith(true);
-      expect(api.apiFetch).toHaveBeenCalledWith('Summer');
-      expect(setFetchedCharacter).toHaveBeenCalledWith(mockFetchedCharacter);
-      expect(setIsLoading).toHaveBeenCalledWith(false);
-      expect(localStorage.getItem('searchTerm')).toBe('Summer');
-    });
+    await userEvent.type(input, 'Morty');
+
+    expect(input).toHaveValue('Morty');
+    expect(mockSetQuery).not.toHaveBeenCalled();
   });
 
-  test('calls handleSearch on Enter key', async () => {
-    render(
-      <SearchSection
-        setFetchedCharacter={setFetchedCharacter}
-        setIsLoading={setIsLoading}
-      />
-    );
-    const input = screen.getByPlaceholderText('Search...') as HTMLInputElement;
-    fireEvent.change(input, { target: { value: 'Beth' } });
-    fireEvent.keyDown(input, { key: 'Enter', code: 'Enter', charCode: 13 });
+  it('should calls setQuery with trim extra spaces on button click', async () => {
+    render(<SearchSection query="" setQuery={mockSetQuery} />);
+    const input = screen.getByPlaceholderText('Search...');
+    const button = screen.getByRole('button', { name: /search/i });
 
-    await waitFor(() => {
-      expect(api.apiFetch).toHaveBeenCalledWith('Beth');
-      expect(setFetchedCharacter).toHaveBeenCalledWith(mockFetchedCharacter);
-    });
+    await userEvent.type(input, '  Summer  ');
+    await userEvent.click(button);
+
+    expect(mockSetQuery).toHaveBeenCalledWith('Summer');
+    expect(mockSetQuery).toHaveBeenCalledTimes(1);
+    expect(input).toHaveValue('Summer');
   });
 
-  test('load last query from localStorage on mount', async () => {
-    localStorage.setItem('searchTerm', 'Jerry');
-    render(
-      <SearchSection
-        setFetchedCharacter={setFetchedCharacter}
-        setIsLoading={setIsLoading}
-      />
-    );
-    await waitFor(() => {
-      expect(api.apiFetch).toHaveBeenCalledWith('Jerry');
-      expect(screen.getByPlaceholderText('Search...')).toHaveValue('Jerry');
-    });
+  it('should calls setQuery with trim extra spaces on Enter key', async () => {
+    render(<SearchSection query="" setQuery={mockSetQuery} />);
+    const input = screen.getByPlaceholderText('Search...');
+
+    await userEvent.type(input, '  Jerry  {Enter}');
+
+    expect(mockSetQuery).toHaveBeenCalledWith('Jerry');
+    expect(mockSetQuery).toHaveBeenCalledTimes(1);
+    expect(input).toHaveValue('Jerry');
   });
 
-  test('calls handleSearch with empty string if on last query', async () => {
-    render(
-      <SearchSection
-        setFetchedCharacter={setFetchedCharacter}
-        setIsLoading={setIsLoading}
-      />
-    );
-    await waitFor(() => {
-      expect(api.apiFetch).toHaveBeenCalledWith('');
-    });
+  it("should didn't call setQuery on click any keys, except Enter", async () => {
+    render(<SearchSection query="" setQuery={mockSetQuery} />);
+    const input = screen.getByPlaceholderText('Search...');
+
+    await userEvent.type(input, 'Beth{Escape}');
+
+    expect(mockSetQuery).not.toHaveBeenCalled();
   });
 });
