@@ -24,7 +24,7 @@ describe('ErrorBoundary', () => {
       </ErrorBoundary>
     );
     expect(screen.getByText('Something went wrong!')).toBeInTheDocument();
-    expect(screen.getByText('Reload page, please.')).toBeInTheDocument();
+    expect(screen.getByText('Go to the home page, please')).toBeInTheDocument();
     expect(screen.getByAltText('error')).toBeInTheDocument();
     consoleSpy.mockRestore();
   });

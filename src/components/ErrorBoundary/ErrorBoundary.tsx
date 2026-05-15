@@ -30,7 +30,8 @@ export class ErrorBoundary extends Component<Props, State> {
         <div className={styles.errorBoundary}>
           <h1 className={styles.title}>Something went wrong!</h1>
           <img src="./error.png" alt="error" />
-          <p>Reload page, please.</p>
+          <p>Go to the home page, please</p>
+          <a href="/">Home</a>
         </div>
       );
     }

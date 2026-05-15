@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import SearchSection from './SearchSection';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('SearchSection', () => {
   const mockSetQuery = vi.fn();
@@ -15,20 +16,31 @@ describe('SearchSection', () => {
   });
 
   it('should renders input and button', () => {
-    render(<SearchSection query="Rick" setQuery={mockSetQuery} />);
+    render(
+      <MemoryRouter>
+        <SearchSection query="Rick" setQuery={mockSetQuery} />
+      </MemoryRouter>
+    );
     expect(screen.getByPlaceholderText('Search...')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /search/i })).toBeInTheDocument();
   });
 
   it('should initialized with the value from the query prop', () => {
-    render(<SearchSection query="Rick" setQuery={mockSetQuery} />);
-
+    render(
+      <MemoryRouter>
+        <SearchSection query="Rick" setQuery={mockSetQuery} />
+      </MemoryRouter>
+    );
     const input = screen.getByPlaceholderText('Search...') as HTMLInputElement;
     expect(input.value).toBe('Rick');
   });
 
   it('should update the internal value on input, but not call setQuery', async () => {
-    render(<SearchSection query="" setQuery={mockSetQuery} />);
+    render(
+      <MemoryRouter>
+        <SearchSection query="" setQuery={mockSetQuery} />
+      </MemoryRouter>
+    );
     const input = screen.getByPlaceholderText('Search...');
 
     await userEvent.type(input, 'Morty');
@@ -38,7 +50,11 @@ describe('SearchSection', () => {
   });
 
   it('should calls setQuery with trim extra spaces on button click', async () => {
-    render(<SearchSection query="" setQuery={mockSetQuery} />);
+    render(
+      <MemoryRouter>
+        <SearchSection query="" setQuery={mockSetQuery} />
+      </MemoryRouter>
+    );
     const input = screen.getByPlaceholderText('Search...');
     const button = screen.getByRole('button', { name: /search/i });
 
@@ -51,7 +67,11 @@ describe('SearchSection', () => {
   });
 
   it('should calls setQuery with trim extra spaces on Enter key', async () => {
-    render(<SearchSection query="" setQuery={mockSetQuery} />);
+    render(
+      <MemoryRouter>
+        <SearchSection query="" setQuery={mockSetQuery} />
+      </MemoryRouter>
+    );
     const input = screen.getByPlaceholderText('Search...');
 
     await userEvent.type(input, '  Jerry  {Enter}');
@@ -62,7 +82,11 @@ describe('SearchSection', () => {
   });
 
   it("should didn't call setQuery on click any keys, except Enter", async () => {
-    render(<SearchSection query="" setQuery={mockSetQuery} />);
+    render(
+      <MemoryRouter>
+        <SearchSection query="" setQuery={mockSetQuery} />
+      </MemoryRouter>
+    );
     const input = screen.getByPlaceholderText('Search...');
 
     await userEvent.type(input, 'Beth{Escape}');

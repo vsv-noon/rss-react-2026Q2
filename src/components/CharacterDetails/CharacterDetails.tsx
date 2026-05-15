@@ -8,6 +8,7 @@ import { apiFetch } from '@/services/api';
 const CharacterDetails: React.FC = () => {
   const { id } = useParams();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
   const [character, setCharacter] = useState<Character | null>(null);
   const { handleCloseCharacterDetails } = useOutletContext<{
     handleCloseCharacterDetails: () => void;
@@ -17,11 +18,14 @@ const CharacterDetails: React.FC = () => {
     const getCharacterDetails = async () => {
       try {
         setIsLoading(true);
+        setError(null);
+
         const data = await apiFetch({ id: id });
         setCharacter(data);
-      } catch (error) {
-        const typedError = error as Error;
-        throw new Error('Failed to fetch characters', typedError);
+      } catch (err) {
+        const typedError = err as Error;
+        console.error('Failed to fetch characters', typedError);
+        setError('Failed to fetch characters. Please try again later.');
       } finally {
         setIsLoading(false);
       }
@@ -29,10 +33,16 @@ const CharacterDetails: React.FC = () => {
 
     getCharacterDetails();
   }, [id]);
+
   return (
     <div className={styles.detailsPanel}>
       {isLoading && <Loader />}
-      {!isLoading && character && (
+      {!isLoading && error && (
+        <div className={styles.errorMessage} data-testid="error-message">
+          {error}
+        </div>
+      )}
+      {!isLoading && !error && character && (
         <div className={styles.detailsCard}>
           <div
             className={styles.closeBtn}

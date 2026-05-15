@@ -41,7 +41,6 @@ describe('CharacterDetails', () => {
   const handleCloseCharacterDetails = vi.fn();
 
   beforeEach(() => {
-    vi.useFakeTimers();
     (useParams as Mock).mockReturnValue({ id: '1' });
     (useOutletContext as Mock).mockReturnValue({
       handleCloseCharacterDetails,
@@ -51,21 +50,38 @@ describe('CharacterDetails', () => {
 
   afterEach(() => {
     vi.clearAllMocks();
-    vi.useRealTimers();
   });
 
   it('should render the loader initially', async () => {
     render(<CharacterDetails />);
     expect(screen.getByRole('status')).toBeInTheDocument();
+
+    await screen.findAllByText('x');
   });
 
   it('should call handleCloseCharacterDetails when close button is clicked', async () => {
     render(<CharacterDetails />);
-    vi.runAllTimers();
-    await vi.waitFor(() => {
-      expect(screen.getByText('x')).toBeInTheDocument();
-    });
-    fireEvent.click(screen.getByText('x'));
+
+    const closeButton = await screen.findByText('x');
+
+    fireEvent.click(closeButton);
+
     expect(handleCloseCharacterDetails).toHaveBeenCalled();
+  });
+
+  it('should display an error message in the UI when the API request fails', async () => {
+    (api.apiFetch as Mock).mockRejectedValueOnce(new Error('Database Down'));
+
+    render(<CharacterDetails />);
+
+    const errorMessage = await screen.findByTestId('error-message');
+
+    expect(errorMessage).toBeInTheDocument();
+    expect(errorMessage).toHaveTextContent(
+      'Failed to fetch characters. Please try again later.'
+    );
+
+    expect(screen.queryByTestId('loader')).not.toBeInTheDocument();
+    expect(screen.queryByText('Name:')).not.toBeInTheDocument();
   });
 });
