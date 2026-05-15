@@ -1,9 +1,9 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, type RouteObject } from 'react-router-dom';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import RootLayout from '@/layouts/RootLayout';
 import Loader from '@/components/Loader';
 
-export const router = createBrowserRouter([
+export const routesConfig: RouteObject[] = [
   {
     path: '/',
     element: (
@@ -49,4 +49,6 @@ export const router = createBrowserRouter([
       },
     ],
   },
-]);
+];
+
+export const router = createBrowserRouter(routesConfig);
