@@ -8,6 +8,7 @@ const Card: React.FC<CardProps> = ({ character }) => {
   return (
     <div className={styles.card}>
       <Link
+        className={styles.cardLink}
         to={`details/${character.id}?${searchParams}`}
         onClick={(e) => e.stopPropagation()}
         viewTransition

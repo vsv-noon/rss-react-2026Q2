@@ -7,7 +7,7 @@ const Pagination: React.FC<PaginationProps> = ({
   totalPages,
   onPageChange,
 }) => {
-  if (totalPages <= 1) return null;
+  if (totalPages <= 0) return null;
 
   return (
     <div className={styles.pagination} onClick={(e) => e.stopPropagation()}>

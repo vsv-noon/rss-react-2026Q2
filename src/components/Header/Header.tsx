@@ -9,7 +9,7 @@ const Header: React.FC = () => {
         <NavLink
           to="/"
           className={({ isActive }) =>
-            isActive ? styles.isActive : styles.navLink
+            isActive ? `${styles.navLink} ${styles.isActive}` : styles.navLink
           }
           viewTransition
         >
@@ -19,7 +19,7 @@ const Header: React.FC = () => {
         <NavLink
           to="/about"
           className={({ isActive }) =>
-            isActive ? styles.isActive : styles.navLink
+            isActive ? `${styles.navLink} ${styles.isActive}` : styles.navLink
           }
           viewTransition
         >

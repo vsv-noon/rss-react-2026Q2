@@ -14,7 +14,7 @@ import Loader from '@/components/Loader';
 const MainPage: React.FC = () => {
   const navigate = useNavigate();
 
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const currentPage = parseInt(searchParams.get('page') || DEFAULT_PAGE);
   const [totalPages, setTotalPages] = useState<number>(0);
   const [characters, setCharacters] = useState<ApiResponse | null>(null);
@@ -35,6 +35,10 @@ const MainPage: React.FC = () => {
 
         setCharacters(data);
         setTotalPages(data.info.pages);
+
+        if (!searchParams.has('page')) {
+          setSearchParams({ page: '1' }, { replace: true });
+        }
       } catch (error) {
         const typedError = error as Error;
         throw new Error('Failed to fetch characters', typedError);
@@ -44,7 +48,14 @@ const MainPage: React.FC = () => {
     };
 
     fetchCharacters(query, currentPage);
-  }, [query, currentPage, setCharacters, setIsLoading]);
+  }, [
+    query,
+    currentPage,
+    setCharacters,
+    setIsLoading,
+    searchParams,
+    setSearchParams,
+  ]);
 
   const handlePageChange = (newPage: number) => {
     const searchString = `?page=${newPage}`;
@@ -77,7 +88,7 @@ const MainPage: React.FC = () => {
       <h1 className={styles.title}>Rick and Morty</h1>
 
       {isLoading && <Loader />}
-      {!isLoading && (
+      {!isLoading && !characters?.error && (
         <>
           <div className={styles.paginationBlock}>
             <Pagination
