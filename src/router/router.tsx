@@ -1,10 +1,7 @@
-import CharacterDetails from '@/components/CharacterDetails';
+import { createBrowserRouter } from 'react-router-dom';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import RootLayout from '@/layouts/RootLayout';
-import About from '@/pages/About';
-import MainPage from '@/pages/MainPage';
-import NotFound from '@/pages/NotFound';
-import { createBrowserRouter } from 'react-router-dom';
+import Loader from '@/components/Loader';
 
 export const router = createBrowserRouter([
   {
@@ -16,22 +13,39 @@ export const router = createBrowserRouter([
     ),
     children: [
       {
-        path: '/',
-        element: <MainPage />,
+        path: '',
+        lazy: async () => {
+          const MainPage = await import('@/pages/MainPage');
+          return { Component: MainPage.default };
+        },
+        HydrateFallback: Loader,
         children: [
           {
             path: 'details/:id',
-            element: <CharacterDetails />,
+            lazy: async () => {
+              const CharacterDetails =
+                await import('@/components/CharacterDetails');
+              return { Component: CharacterDetails.default };
+            },
+            HydrateFallback: Loader,
           },
         ],
       },
       {
         path: 'about',
-        element: <About />,
+        lazy: async () => {
+          const About = await import('@/pages/About');
+          return { Component: About.default };
+        },
+        HydrateFallback: Loader,
       },
       {
         path: '*',
-        element: <NotFound />,
+        lazy: async () => {
+          const NotFound = await import('@/pages/NotFound');
+          return { Component: NotFound.default };
+        },
+        HydrateFallback: Loader,
       },
     ],
   },

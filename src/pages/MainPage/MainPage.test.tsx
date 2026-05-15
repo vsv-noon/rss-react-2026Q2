@@ -18,7 +18,7 @@ vi.mock('@/services/api', () => ({ apiFetch: vi.fn() }));
 
 const mockSetQuery = vi.fn();
 vi.mock('@/hooks/useLocalStorage', () => ({
-  default: (key: string, initialValue: string) => ['Rick', mockSetQuery],
+  default: (_key: string, _initialValue: string) => ['Rick', mockSetQuery],
 }));
 
 vi.mock('@/components/SearchSection', () => ({
