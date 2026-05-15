@@ -1,18 +1,18 @@
-import { vi, describe, it, expect } from 'vitest';
+import { vi, describe, it, expect, type Mock } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import MainPage from './MainPage';
 import { apiFetch } from '@/services/api';
 import type { ApiResponse } from '@/types/types';
+import { MemoryRouter, useNavigate, useSearchParams } from 'react-router-dom';
 
-const mockNavigate = vi.fn();
-let mockSearchParams = new URLSearchParams('');
-
-vi.mock('react-router-dom', () => ({
-  ...vi.importActual('react-router-dom'),
-  useNavigate: () => mockNavigate,
-  useSearchParams: () => [mockSearchParams],
-  Outlet: () => <div data-testid="mock-outlet" />,
-}));
+vi.mock('react-router-dom', async () => {
+  const actual = await vi.importActual('react-router-dom');
+  return {
+    ...actual,
+    useNavigate: vi.fn(),
+    useSearchParams: vi.fn(),
+  };
+});
 
 vi.mock('@/services/api', () => ({ apiFetch: vi.fn() }));
 
@@ -43,29 +43,52 @@ vi.mock('@/components/Loader', () => ({
   default: () => <div data-testid="loader" />,
 }));
 
-const mockApiResponse = {
-  info: { pages: 5, count: 100, next: null, prev: null },
-  results: [{ id: 1, name: 'Rick Sanchez' }],
-};
-
 describe('MainPage', () => {
+  const mockNavigate = vi.fn();
+  const mockSetSearchParams = vi.fn();
+  const mockApiResponse = {
+    info: { pages: 5, count: 100, next: null, prev: null },
+    results: [{ id: 1, name: 'Rick Sanchez' }],
+  };
+
   beforeEach(() => {
     vi.clearAllMocks();
-    mockSearchParams = new URLSearchParams('');
-    vi.mocked(apiFetch).mockResolvedValue(mockApiResponse);
+
+    (useNavigate as Mock).mockReturnValue(mockNavigate);
+
+    const mockParams = {
+      get: (key: string) => (key === 'page' ? '1' : null),
+      has: (key: string) => key === 'page',
+      toString: () => 'page=1',
+    };
+    (useSearchParams as Mock).mockReturnValue([
+      mockParams,
+      mockSetSearchParams,
+    ]);
+
+    (apiFetch as Mock).mockResolvedValue(mockApiResponse);
   });
 
-  it('should throw error when error button is clicked', () => {
+  it('should throw error when error button is clicked', async () => {
     const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-    expect(() => {
-      render(<MainPage />);
-      fireEvent.click(screen.getByText('Create an error!'));
-    }).toThrow('I crashed!');
+    render(
+      <MemoryRouter>
+        <MainPage />
+      </MemoryRouter>
+    );
+
+    const button = screen.getByRole('button', { name: /create an error!/i });
+
+    expect(() => fireEvent.click(button)).toThrow('I crashed!');
     spy.mockRestore();
   });
 
   it('should show loader and calls apiFetch on init', async () => {
-    render(<MainPage />);
+    render(
+      <MemoryRouter>
+        <MainPage />
+      </MemoryRouter>
+    );
 
     expect(screen.getByTestId('loader')).toBeInTheDocument();
 
@@ -81,7 +104,11 @@ describe('MainPage', () => {
   });
 
   it('should calls navigate with new page on click pagination button', async () => {
-    render(<MainPage />);
+    render(
+      <MemoryRouter>
+        <MainPage />
+      </MemoryRouter>
+    );
 
     await waitFor(() =>
       expect(screen.queryByTestId('loader')).not.toBeInTheDocument()
@@ -96,7 +123,11 @@ describe('MainPage', () => {
   it('should throw error when error button is clicked', () => {
     const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
     expect(() => {
-      render(<MainPage />);
+      render(
+        <MemoryRouter>
+          <MainPage />
+        </MemoryRouter>
+      );
       fireEvent.click(screen.getByText('Create an error!'));
     }).toThrow('I crashed!');
     spy.mockRestore();
@@ -109,7 +140,11 @@ describe('MainPage', () => {
       info: { pages: 0, count: 0, next: null, prev: null },
     });
 
-    render(<MainPage />);
+    render(
+      <MemoryRouter>
+        <MainPage />
+      </MemoryRouter>
+    );
 
     await waitFor(() => {
       expect(screen.getByRole('heading', { level: 3 })).toHaveTextContent(

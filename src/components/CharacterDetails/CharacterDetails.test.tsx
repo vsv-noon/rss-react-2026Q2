@@ -8,7 +8,7 @@ import {
   afterEach,
   type Mock,
 } from 'vitest';
-import { useParams, useOutletContext } from 'react-router-dom';
+import { useParams, useOutletContext, MemoryRouter } from 'react-router-dom';
 import CharacterDetails from './CharacterDetails';
 import * as api from '@/services/api';
 
@@ -53,14 +53,22 @@ describe('CharacterDetails', () => {
   });
 
   it('should render the loader initially', async () => {
-    render(<CharacterDetails />);
+    render(
+      <MemoryRouter>
+        <CharacterDetails />
+      </MemoryRouter>
+    );
     expect(screen.getByRole('status')).toBeInTheDocument();
 
     await screen.findAllByText('x');
   });
 
   it('should call handleCloseCharacterDetails when close button is clicked', async () => {
-    render(<CharacterDetails />);
+    render(
+      <MemoryRouter>
+        <CharacterDetails />
+      </MemoryRouter>
+    );
 
     const closeButton = await screen.findByText('x');
 
@@ -72,7 +80,11 @@ describe('CharacterDetails', () => {
   it('should display an error message in the UI when the API request fails', async () => {
     (api.apiFetch as Mock).mockRejectedValueOnce(new Error('Database Down'));
 
-    render(<CharacterDetails />);
+    render(
+      <MemoryRouter>
+        <CharacterDetails />
+      </MemoryRouter>
+    );
 
     const errorMessage = await screen.findByTestId('error-message');
 

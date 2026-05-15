@@ -15,12 +15,12 @@ const CharacterDetails: React.FC = () => {
   }>();
 
   useEffect(() => {
-    const getCharacterDetails = async () => {
+    const getCharacterDetails = async (characterId?: string) => {
       try {
         setIsLoading(true);
         setError(null);
 
-        const data = await apiFetch({ id: id });
+        const data = await apiFetch({ id: characterId });
         setCharacter(data);
       } catch (err) {
         const typedError = err as Error;
@@ -31,7 +31,7 @@ const CharacterDetails: React.FC = () => {
       }
     };
 
-    getCharacterDetails();
+    getCharacterDetails(id);
   }, [id]);
 
   return (
