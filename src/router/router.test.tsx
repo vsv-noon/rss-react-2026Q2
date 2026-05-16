@@ -32,6 +32,10 @@ vi.mock('@/layouts/RootLayout', () => ({
   ),
 }));
 
+vi.mock('@/pages/NotFound', () => ({
+  default: () => <div data-testid="not-found">Page Not Found</div>,
+}));
+
 describe('Application Routing Suite', () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -70,10 +74,6 @@ describe('Application Routing Suite', () => {
   });
 
   it('should render NotFound view when an invalid route is requested', async () => {
-    vi.mock('@/pages/NotFound', () => ({
-      default: () => <div data-testid="not-found">Page Not Found</div>,
-    }));
-
     const testRouter = createMemoryRouter(routesConfig, {
       initialEntries: ['/some/broken/link'],
     });
