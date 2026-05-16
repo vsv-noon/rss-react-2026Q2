@@ -6,9 +6,9 @@ const Card: React.FC<CardProps> = ({ character }) => {
   const [searchParams] = useSearchParams();
 
   return (
-    <div className={styles.card}>
+    <div className={styles.cardContainer}>
       <Link
-        className={styles.cardLink}
+        className={styles.card}
         to={`details/${character.id}?${searchParams}`}
         onClick={(e) => e.stopPropagation()}
         viewTransition

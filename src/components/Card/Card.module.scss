@@ -1,9 +1,14 @@
 .card {
+  display: block;
   max-width: rem(150);
+  min-width: rem(150);
+  min-height: rem(190);
   box-shadow: 0 rem(12) rem(24) rgba(0, 0, 0, 0.2);
-}
-
-.cardLink {
   color: #000;
   text-decoration: none;
+}
+
+.card img {
+  width: 100%;
+  height: rem(150);
 }

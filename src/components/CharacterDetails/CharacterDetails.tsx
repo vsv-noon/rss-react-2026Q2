@@ -50,7 +50,9 @@ const CharacterDetails: React.FC = () => {
           >
             x
           </div>
-          <img src={character.image} alt={character.name} />
+          <div className={styles.image}>
+            <img src={character.image} alt={character.name} />
+          </div>
           <h4>Name: {character.name}</h4>
           <p>Status: {character.status}</p>
           <p>Species: {character.species}</p>
