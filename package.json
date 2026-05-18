@@ -5,14 +5,16 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:prod": "vite --mode production",
     "build": "tsc -b && vite build",
+    "preview": "vite preview",
     "lint": "eslint .",
     "lint-staged": "lint-staged",
-    "preview": "vite preview",
     "format:fix": "prettier --write .",
+    "format:check": "prettier --check .",
     "prepare": "husky && chmod ug+x .husky/*",
     "test": "NODE_OPTIONS='--no-experimental-webstorage' vitest",
-    "coverage": "NODE_OPTIONS='--no-experimental-webstorage' vitest run --coverage"
+    "test:coverage": "NODE_OPTIONS='--no-experimental-webstorage' vitest run --coverage"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
@@ -24,20 +26,21 @@
     ]
   },
   "dependencies": {
-    "@tailwindcss/postcss": "^4.2.4",
-    "@tailwindcss/vite": "^4.2.4",
+    "@fontsource/inter": "^5.2.8",
     "postcss": "^8.5.13",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
-    "tailwindcss": "^4.2.4"
+    "react-router-dom": "^7.15.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
     "@types/node": "^24.12.2",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
+    "@types/react-router-dom": "^5.3.3",
     "@vitejs/plugin-react": "^6.0.1",
     "@vitest/coverage-v8": "^4.1.5",
     "eslint": "^9.39.4",
@@ -50,6 +53,7 @@
     "jsdom": "^29.1.1",
     "lint-staged": "^16.4.0",
     "prettier": "^3.8.3",
+    "sass-embedded": "^1.99.0",
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.58.2",
     "vite": "^8.0.10",

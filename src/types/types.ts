@@ -1,4 +1,4 @@
-export type FetchedCharacter = {
+export type ApiResponse = {
   info?: {
     count: number;
     pages: number;

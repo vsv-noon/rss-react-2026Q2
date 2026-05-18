@@ -1,11 +1,21 @@
-const BASE_URL: string = 'https://rickandmortyapi.com/api/character/';
+import type { ApiFetchProps } from './types';
 
-export async function apiFetch(searchString: string) {
-  const url = new URL(BASE_URL);
+export async function apiFetch({ id, searchString, page }: ApiFetchProps) {
+  const baseUrl = import.meta.env.VITE_API_URL;
+  const baseOrigin = baseUrl.startsWith('http')
+    ? undefined
+    : window.location.origin;
+  const url = new URL(`${baseUrl}/character/`, baseOrigin);
 
   try {
+    if (page) {
+      url.searchParams.set('page', page);
+    }
+
     if (searchString) {
       url.searchParams.set('name', searchString);
+    } else if (id) {
+      url.pathname += id;
     }
 
     const response = await fetch(url);
