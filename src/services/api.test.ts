@@ -1,11 +1,17 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { apiFetch } from './api';
 
-globalThis.fetch = vi.fn();
+const fetchMock = vi.fn();
+vi.stubGlobal('fetch', fetchMock);
 
 describe('apiFetch', () => {
   beforeEach(() => {
-    vi.clearAllMocks();
+    vi.resetAllMocks();
+    vi.stubEnv('VITE_API_URL', 'https://rickandmortyapi.com');
+  });
+
+  afterEach(() => {
+    vi.unstubAllEnvs();
   });
 
   it('should return data when response is ok', async () => {
@@ -18,12 +24,10 @@ describe('apiFetch', () => {
 
     const result = await apiFetch({ searchString: '' });
 
+    const expectedUrl = 'https://rickandmortyapi.com/character/';
+
     expect(result).toEqual(mockData);
-    expect(fetch).toHaveBeenCalledWith(
-      expect.objectContaining({
-        href: 'https://rickandmortyapi.com/api/character/',
-      })
-    );
+    expect(fetchMock).toHaveBeenCalledWith(new URL(expectedUrl));
   });
 
   it('should add search parameter when searchString is provided', async () => {

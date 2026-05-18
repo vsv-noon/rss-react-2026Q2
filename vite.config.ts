@@ -6,6 +6,14 @@ import path from 'path';
 
 export default defineConfig({
   plugins: [react()],
+  server: {
+    proxy: {
+      '/api': {
+        target: 'https://rickandmortyapi.com',
+        changeOrigin: true,
+      },
+    },
+  },
   resolve: {
     tsconfigPaths: true,
     alias: {

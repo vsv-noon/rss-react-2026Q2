@@ -48,14 +48,7 @@ const MainPage: React.FC = () => {
     };
 
     fetchCharacters(query, currentPage);
-  }, [
-    query,
-    currentPage,
-    setCharacters,
-    setIsLoading,
-    searchParams,
-    setSearchParams,
-  ]);
+  }, [query, currentPage, setCharacters, searchParams, setSearchParams]);
 
   const handlePageChange = (newPage: number) => {
     const searchString = `?page=${newPage}`;

@@ -1,8 +1,11 @@
-import { BASE_URL } from './constants';
 import type { ApiFetchProps } from './types';
 
 export async function apiFetch({ id, searchString, page }: ApiFetchProps) {
-  const url = new URL(BASE_URL);
+  const baseUrl = import.meta.env.VITE_API_URL;
+  const baseOrigin = baseUrl.startsWith('http')
+    ? undefined
+    : window.location.origin;
+  const url = new URL(`${baseUrl}/character/`, baseOrigin);
 
   try {
     if (page) {
