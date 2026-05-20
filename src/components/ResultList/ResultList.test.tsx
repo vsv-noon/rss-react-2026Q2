@@ -1,6 +1,8 @@
-import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
+import { describe, it, expect } from 'vitest';
+
 import ResultList from './ResultList';
+
 import { type Character } from '@/types/types';
 
 vi.mock('@/components/Card', () => {

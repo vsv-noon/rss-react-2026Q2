@@ -1,4 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
+import { useParams, useOutletContext, MemoryRouter } from 'react-router-dom';
 import {
   describe,
   it,
@@ -8,8 +9,9 @@ import {
   afterEach,
   type Mock,
 } from 'vitest';
-import { useParams, useOutletContext, MemoryRouter } from 'react-router-dom';
+
 import CharacterDetails from './CharacterDetails';
+
 import * as api from '@/services/api';
 
 vi.mock('react-router-dom', async () => {

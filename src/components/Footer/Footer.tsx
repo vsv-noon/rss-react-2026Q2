@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
-import { GITHUB_LINK } from '@/constants/constants';
+
 import styles from './Footer.module.scss';
+
+import { GITHUB_LINK } from '@/constants/constants';
 
 const Footer: React.FC = () => {
   return (

@@ -1,7 +1,10 @@
 import { useState, type ChangeEvent, type SubmitEvent } from 'react';
+
 import { useNavigate } from 'react-router-dom';
-import type { SearchSectionProps } from './types';
+
 import styles from './SearchSection.module.scss';
+
+import type { SearchSectionProps } from './types';
 
 const SearchSection: React.FC<SearchSectionProps> = ({ query, setQuery }) => {
   const navigate = useNavigate();

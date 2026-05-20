@@ -1,7 +1,8 @@
 import { createBrowserRouter, type RouteObject } from 'react-router-dom';
+
 import ErrorBoundary from '@/components/ErrorBoundary';
-import RootLayout from '@/layouts/RootLayout';
 import Loader from '@/components/Loader';
+import RootLayout from '@/layouts/RootLayout';
 
 export const routesConfig: RouteObject[] = [
   {

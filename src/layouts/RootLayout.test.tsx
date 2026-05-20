@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
-import { describe, it, vi, expect } from 'vitest';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
+import { describe, it, vi, expect } from 'vitest';
+
 import RootLayout from './RootLayout';
 
 vi.mock('@/components/Header', () => ({

@@ -1,9 +1,12 @@
-import { vi, describe, it, expect, type Mock } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import MainPage from './MainPage';
-import { apiFetch } from '@/services/api';
-import type { ApiResponse } from '@/types/types';
 import { MemoryRouter, useNavigate, useSearchParams } from 'react-router-dom';
+import { vi, describe, it, expect, type Mock } from 'vitest';
+
+import MainPage from './MainPage';
+
+import type { ApiResponse } from '@/types/types';
+
+import { apiFetch } from '@/services/api';
 
 vi.mock('react-router-dom', async () => {
   const actual = await vi.importActual('react-router-dom');

@@ -1,6 +1,8 @@
-import Card from '@/components/Card';
-import type { ResultListProps } from './types';
 import styles from './ResultList.module.scss';
+
+import type { ResultListProps } from './types';
+
+import Card from '@/components/Card';
 
 const ResultList: React.FC<ResultListProps> = ({ characters }) => {
   return (

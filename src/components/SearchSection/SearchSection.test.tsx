@@ -1,8 +1,9 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import SearchSection from './SearchSection';
 import { MemoryRouter } from 'react-router-dom';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+
+import SearchSection from './SearchSection';
 
 describe('SearchSection', () => {
   const mockSetQuery = vi.fn();

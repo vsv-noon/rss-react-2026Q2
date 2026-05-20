@@ -1,6 +1,8 @@
 import { Link, useSearchParams } from 'react-router-dom';
-import type { CardProps } from './types';
+
 import styles from './Card.module.scss';
+
+import type { CardProps } from './types';
 
 const Card: React.FC<CardProps> = ({ character }) => {
   const [searchParams] = useSearchParams();

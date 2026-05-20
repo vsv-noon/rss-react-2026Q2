@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
+
 import { GITHUB_LINK, REACT_COURSE_LINK } from '../../constants/constants';
+
 import styles from './About.module.scss';
 
 const About: React.FC = () => {

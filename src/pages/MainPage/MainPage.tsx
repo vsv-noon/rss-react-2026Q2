@@ -1,15 +1,18 @@
-import SearchSection from '@/components/SearchSection';
-import ResultList from '@/components/ResultList';
 import { useEffect, useState } from 'react';
+
+import { Outlet, useNavigate, useSearchParams } from 'react-router-dom';
+
+import { DEFAULT_PAGE } from './constants';
+import styles from './MainPage.module.scss';
+
 import type { ApiResponse } from '@/types/types';
 
-import styles from './MainPage.module.scss';
-import { Outlet, useNavigate, useSearchParams } from 'react-router-dom';
+import Loader from '@/components/Loader';
+import Pagination from '@/components/Pagination';
+import ResultList from '@/components/ResultList';
+import SearchSection from '@/components/SearchSection';
 import useLocalStorage from '@/hooks/useLocalStorage';
 import { apiFetch } from '@/services/api';
-import Pagination from '@/components/Pagination';
-import { DEFAULT_PAGE } from './constants';
-import Loader from '@/components/Loader';
 
 const MainPage: React.FC = () => {
   const navigate = useNavigate();
