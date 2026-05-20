@@ -1,5 +1,5 @@
 import type { ApiResponse } from '@/types/types';
 
-export type ResultListProps = {
+export type CharactersState = {
   characters: ApiResponse | null;
 };

@@ -6,6 +6,8 @@ import styles from './SearchSection.module.scss';
 
 import type { SearchSectionProps } from './types';
 
+import { DEFAULT_PAGE } from '@/pages/MainPage/constants';
+
 const SearchSection: React.FC<SearchSectionProps> = ({ query, setQuery }) => {
   const navigate = useNavigate();
   const [inputValue, setInputValue] = useState<string>(query);
@@ -17,7 +19,7 @@ const SearchSection: React.FC<SearchSectionProps> = ({ query, setQuery }) => {
   const handleSubmit = (e: SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    navigate('/?page=1');
+    navigate(`/?page=${DEFAULT_PAGE}`);
     setQuery(inputValue.trim());
     setInputValue(inputValue.trim());
   };

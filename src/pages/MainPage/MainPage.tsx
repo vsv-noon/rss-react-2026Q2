@@ -5,24 +5,28 @@ import { Outlet, useNavigate, useSearchParams } from 'react-router-dom';
 import { DEFAULT_PAGE } from './constants';
 import styles from './MainPage.module.scss';
 
-import type { ApiResponse } from '@/types/types';
-
 import Loader from '@/components/Loader';
 import Pagination from '@/components/Pagination';
 import ResultList from '@/components/ResultList';
 import SearchSection from '@/components/SearchSection';
 import useLocalStorage from '@/hooks/useLocalStorage';
 import { apiFetch } from '@/services/api';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { setCharacters } from '@/store/slices/charactersSlice/charactersSlice';
 
 const MainPage: React.FC = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const characters = useAppSelector((state) => state.characters.characters);
 
   const [searchParams, setSearchParams] = useSearchParams();
   const currentPage = parseInt(searchParams.get('page') || DEFAULT_PAGE);
-  const [totalPages, setTotalPages] = useState<number>(0);
-  const [characters, setCharacters] = useState<ApiResponse | null>(null);
+  const [totalPages, setTotalPages] = useState<number>(Number(DEFAULT_PAGE));
 
-  const [query, setQuery] = useLocalStorage('searchTerm', '');
+  const [persistedSearch, setPersistedSearch] = useLocalStorage(
+    'searchTerm',
+    ''
+  );
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
 
@@ -36,11 +40,11 @@ const MainPage: React.FC = () => {
           page: String(page),
         });
 
-        setCharacters(data);
+        dispatch(setCharacters(data));
         setTotalPages(data.info.pages);
 
         if (!searchParams.has('page')) {
-          setSearchParams({ page: '1' }, { replace: true });
+          setSearchParams({ page: DEFAULT_PAGE }, { replace: true });
         }
       } catch (error) {
         const typedError = error as Error;
@@ -50,8 +54,8 @@ const MainPage: React.FC = () => {
       }
     };
 
-    fetchCharacters(query, currentPage);
-  }, [query, currentPage, setCharacters, searchParams, setSearchParams]);
+    fetchCharacters(persistedSearch, currentPage);
+  }, [persistedSearch, currentPage, dispatch, searchParams, setSearchParams]);
 
   const handlePageChange = (newPage: number) => {
     const searchString = `?page=${newPage}`;
@@ -76,7 +80,7 @@ const MainPage: React.FC = () => {
       className={styles.mainPageContainer}
       onClick={handleCloseCharacterDetails}
     >
-      <SearchSection query={query} setQuery={setQuery} />
+      <SearchSection query={persistedSearch} setQuery={setPersistedSearch} />
       <button className={styles.button} onClick={handleErrorClick}>
         Create an error!
       </button>
@@ -94,7 +98,7 @@ const MainPage: React.FC = () => {
             />
           </div>
           <div className={styles.outletContainer}>
-            <ResultList characters={characters} />
+            <ResultList />
             <div onClick={(e) => e.stopPropagation()}>
               <Outlet context={{ handleCloseCharacterDetails }} />
             </div>
