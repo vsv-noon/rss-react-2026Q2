@@ -3,6 +3,7 @@ import { describe, it, expect } from 'vitest';
 
 import ResultList from './ResultList';
 
+import { useAppSelector } from '@/store/hooks';
 import { type Character } from '@/types/types';
 
 vi.mock('@/components/Card', () => {
@@ -13,21 +14,24 @@ vi.mock('@/components/Card', () => {
   };
 });
 
+vi.mock('@/store/hooks', () => ({
+  useAppSelector: vi.fn(),
+}));
+
 const mockCharacters = [
   { id: 1, name: 'Rick Sanchez', status: 'Alive', image: 'rick.png' },
   { id: 2, name: 'Morty Smith', status: 'Alive', image: 'morty.png' },
 ] as Character[];
 
 describe('ResultList', () => {
-  it('should render the correct number of cards when given data', () => {
-    const props = {
-      characters: {
-        results: mockCharacters,
-        info: { count: 2, pages: 1, next: null, prev: null },
-      },
-    };
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
 
-    render(<ResultList {...props} />);
+  it('should render the correct number of cards when given data', () => {
+    vi.mocked(useAppSelector).mockReturnValue({ results: mockCharacters });
+
+    render(<ResultList />);
 
     const cards = screen.getAllByTestId('mock-card');
 
@@ -37,7 +41,8 @@ describe('ResultList', () => {
   });
 
   it('should renders nothing when characters is null and not loading', () => {
-    render(<ResultList characters={null} />);
+    vi.mocked(useAppSelector).mockReturnValue({ results: [] });
+    render(<ResultList />);
 
     const cards = screen.queryAllByTestId('mock-card');
     expect(cards).toHaveLength(0);

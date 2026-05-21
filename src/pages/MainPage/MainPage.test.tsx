@@ -1,158 +1,94 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { MemoryRouter, useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { vi, describe, it, expect, type Mock } from 'vitest';
 
 import MainPage from './MainPage';
 
-import type { ApiResponse } from '@/types/types';
-
-import { apiFetch } from '@/services/api';
+import { useAppSelector } from '@/store/hooks';
 
 vi.mock('react-router-dom', async () => {
   const actual = await vi.importActual('react-router-dom');
   return {
     ...actual,
+    Outlet: () => <div data-testid="mock-outlet">Outlet</div>,
     useNavigate: vi.fn(),
     useSearchParams: vi.fn(),
   };
 });
 
-vi.mock('@/services/api', () => ({ apiFetch: vi.fn() }));
-
-const mockSetQuery = vi.fn();
-vi.mock('@/hooks/useLocalStorage', () => ({
-  default: (_key: string, _initialValue: string) => ['Rick', mockSetQuery],
+vi.mock('@/store/hooks', () => ({
+  useAppSelector: vi.fn(),
 }));
 
 vi.mock('@/components/SearchSection', () => ({
-  default: () => <div data-testid="search-section"></div>,
+  default: () => <div data-testid="mock-search-section"></div>,
 }));
 
 vi.mock('@/components/ResultList', () => ({
-  default: ({ characters }: { characters: ApiResponse | null }) => (
-    <div data-testid="result-list">{characters?.results?.[0]?.name}</div>
-  ),
+  default: () => <div data-testid="mock-result-list">ResultList</div>,
 }));
 
 vi.mock('@/components/Pagination', () => ({
-  default: ({ onPageChange }: { onPageChange: (page: number) => void }) => (
-    <button data-testid="page-change-btn" onClick={() => onPageChange(2)}>
-      Go to Page 2
-    </button>
-  ),
+  default: () => <div data-testid="mock-pagination">Pagination</div>,
 }));
 
 vi.mock('@/components/Loader', () => ({
-  default: () => <div data-testid="loader" />,
+  default: () => <div data-testid="mock-loader" />,
 }));
 
 describe('MainPage', () => {
   const mockNavigate = vi.fn();
-  const mockSetSearchParams = vi.fn();
-  const mockApiResponse = {
-    info: { pages: 5, count: 100, next: null, prev: null },
-    results: [{ id: 1, name: 'Rick Sanchez' }],
-  };
 
   beforeEach(() => {
     vi.clearAllMocks();
 
-    (useNavigate as Mock).mockReturnValue(mockNavigate);
+    vi.mocked(useNavigate).mockReturnValue(mockNavigate);
 
-    const mockParams = {
-      get: (key: string) => (key === 'page' ? '1' : null),
-      has: (key: string) => key === 'page',
-      toString: () => 'page=1',
-    };
-    (useSearchParams as Mock).mockReturnValue([
-      mockParams,
-      mockSetSearchParams,
+    vi.mocked(useSearchParams).mockReturnValue([
+      new URLSearchParams(''),
+      vi.fn(),
     ]);
-
-    (apiFetch as Mock).mockResolvedValue(mockApiResponse);
   });
 
-  it('should throw error when error button is clicked', async () => {
-    const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-    render(
-      <MemoryRouter>
-        <MainPage />
-      </MemoryRouter>
-    );
+  it('should throw error when crash error button is clicked', async () => {
+    vi.mocked(useAppSelector).mockReturnValue({
+      isLoading: false,
+      characters: { results: [], error: null },
+    });
+    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    render(<MainPage />);
 
-    const button = screen.getByRole('button', { name: /create an error!/i });
-
-    expect(() => fireEvent.click(button)).toThrow('I crashed!');
-    spy.mockRestore();
-  });
-
-  it('should show loader and calls apiFetch on init', async () => {
-    render(
-      <MemoryRouter>
-        <MainPage />
-      </MemoryRouter>
-    );
-
-    expect(screen.getByTestId('loader')).toBeInTheDocument();
-
-    expect(apiFetch).toHaveBeenCalledWith({
-      searchString: 'Rick',
-      page: '1',
+    const crashButton = screen.getByRole('button', {
+      name: /create an error!/i,
     });
 
-    await waitFor(() => {
-      expect(screen.queryByTestId('loader')).not.toBeInTheDocument();
+    expect(() => fireEvent.click(crashButton)).toThrow('I crashed!');
+    consoleSpy.mockRestore();
+  });
+
+  it('should show loader on init', async () => {
+    vi.mocked(useAppSelector).mockReturnValue({
+      isLoading: true,
+      characters: null,
     });
-    expect(screen.getByTestId('result-list')).toHaveTextContent('Rick Sanchez');
-  });
+    render(<MainPage />);
 
-  it('should calls navigate with new page on click pagination button', async () => {
-    render(
-      <MemoryRouter>
-        <MainPage />
-      </MemoryRouter>
-    );
-
-    await waitFor(() =>
-      expect(screen.queryByTestId('loader')).not.toBeInTheDocument()
-    );
-
-    const pageBtn = screen.getByTestId('page-change-btn');
-    fireEvent.click(pageBtn);
-
-    expect(mockNavigate).toHaveBeenCalledWith('/?page=2');
-  });
-
-  it('should throw error when error button is clicked', () => {
-    const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
-    expect(() => {
-      render(
-        <MemoryRouter>
-          <MainPage />
-        </MemoryRouter>
-      );
-      fireEvent.click(screen.getByText('Create an error!'));
-    }).toThrow('I crashed!');
-    spy.mockRestore();
+    expect(screen.getByTestId('mock-loader')).toBeInTheDocument();
   });
 
   it('should correctly display an error if characters are not found on the backend', async () => {
-    vi.mocked(apiFetch).mockResolvedValue({
-      error: 'There is nothing here',
-      results: null,
-      info: { pages: 0, count: 0, next: null, prev: null },
+    vi.mocked(useAppSelector).mockReturnValue({
+      isLoading: false,
+      characters: { error: 'There is nothing here' },
     });
 
-    render(
-      <MemoryRouter>
-        <MainPage />
-      </MemoryRouter>
-    );
+    render(<MainPage />);
 
     await waitFor(() => {
       expect(screen.getByRole('heading', { level: 3 })).toHaveTextContent(
         'There is nothing here'
       );
     });
+    expect(screen.queryByTestId('mock-pagination')).not.toBeInTheDocument();
   });
 });
