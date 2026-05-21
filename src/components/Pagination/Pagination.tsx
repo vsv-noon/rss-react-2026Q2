@@ -1,46 +1,58 @@
+import { useNavigate, useSearchParams } from 'react-router-dom';
+
 import styles from './Pagination.module.scss';
 
-import type { PaginationProps } from './types';
+import { DEFAULT_PAGE } from '@/constants/constants';
+import { useAppSelector } from '@/store/hooks';
 
-import { DEFAULT_PAGE } from '@/pages/MainPage/constants';
+const Pagination: React.FC = () => {
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const currentPage = searchParams.get('page') || DEFAULT_PAGE;
+  const totalPages = useAppSelector((state) => state.characters.totalPages);
+  console.log(totalPages);
+  const handlePageChange = (newPage: number) => {
+    const validPage = Math.max(1, Math.min(newPage, totalPages));
 
-const Pagination: React.FC<PaginationProps> = ({
-  currentPage,
-  totalPages,
-  onPageChange,
-}) => {
+    const newParams = new URLSearchParams(searchParams);
+
+    newParams.set('page', String(validPage));
+
+    navigate(`/?${newParams.toString()}`);
+  };
+
   if (totalPages <= 0) return null;
 
   return (
     <div className={styles.pagination} onClick={(e) => e.stopPropagation()}>
       <button
         className={styles.button}
-        onClick={() => onPageChange(+DEFAULT_PAGE)}
-        disabled={currentPage === 1}
+        onClick={() => handlePageChange(Number(DEFAULT_PAGE))}
+        disabled={Number(currentPage) === 1}
       >
         {'<<'}
       </button>
       <button
         className={styles.button}
-        onClick={() => onPageChange(currentPage - 1)}
-        disabled={currentPage === 1}
+        onClick={() => handlePageChange(Number(currentPage) - 1)}
+        disabled={Number(currentPage) === 1}
       >
         {'<'}
       </button>
       <span>
-        Page {currentPage} from {totalPages}
+        Page {Number(currentPage)} from {totalPages}
       </span>
       <button
         className={styles.button}
-        onClick={() => onPageChange(currentPage + 1)}
-        disabled={currentPage === totalPages}
+        onClick={() => handlePageChange(Number(currentPage) + 1)}
+        disabled={Number(currentPage) === totalPages}
       >
         {'>'}
       </button>
       <button
         className={styles.button}
-        onClick={() => onPageChange(totalPages)}
-        disabled={currentPage === totalPages}
+        onClick={() => handlePageChange(totalPages)}
+        disabled={Number(currentPage) === totalPages}
       >
         {'>>'}
       </button>

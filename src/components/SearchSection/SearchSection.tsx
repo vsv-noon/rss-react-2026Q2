@@ -1,16 +1,40 @@
-import { useState, type ChangeEvent, type SubmitEvent } from 'react';
+import { useEffect, useState, type ChangeEvent, type SubmitEvent } from 'react';
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import styles from './SearchSection.module.scss';
 
-import type { SearchSectionProps } from './types';
+import { DEFAULT_PAGE } from '@/constants/constants';
+import useLocalStorage from '@/hooks/useLocalStorage';
+import { useAppDispatch } from '@/store/hooks';
+import { fetchCharacters } from '@/store/slices/charactersSlice';
 
-import { DEFAULT_PAGE } from '@/pages/MainPage/constants';
-
-const SearchSection: React.FC<SearchSectionProps> = ({ query, setQuery }) => {
+const SearchSection: React.FC = () => {
   const navigate = useNavigate();
-  const [inputValue, setInputValue] = useState<string>(query);
+  const dispatch = useAppDispatch();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const currentPage = searchParams.get('page') || DEFAULT_PAGE;
+  const [persistedSearch, setPersistedSearch] = useLocalStorage(
+    'searchTerm',
+    ''
+  );
+  const [inputValue, setInputValue] = useState<string>(persistedSearch);
+
+  useEffect(() => {
+    const promise = dispatch(
+      fetchCharacters({ searchQuery: persistedSearch, page: currentPage })
+    );
+
+    return () => {
+      promise.abort();
+    };
+  }, [persistedSearch, currentPage, dispatch]);
+
+  useEffect(() => {
+    if (!searchParams.has('page')) {
+      setSearchParams({ page: DEFAULT_PAGE }, { replace: true });
+    }
+  }, [searchParams, setSearchParams]);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
@@ -20,7 +44,7 @@ const SearchSection: React.FC<SearchSectionProps> = ({ query, setQuery }) => {
     e.preventDefault();
 
     navigate(`/?page=${DEFAULT_PAGE}`);
-    setQuery(inputValue.trim());
+    setPersistedSearch(inputValue.trim());
     setInputValue(inputValue.trim());
   };
 
