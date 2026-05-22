@@ -2,7 +2,10 @@ import { NavLink } from 'react-router-dom';
 
 import styles from './Header.module.scss';
 
+import { useTheme } from '@/context/ThemeContext';
+
 const Header: React.FC = () => {
+  const { theme, toggleTheme } = useTheme();
   return (
     <header className={styles.header}>
       <nav>
@@ -26,6 +29,9 @@ const Header: React.FC = () => {
           About
         </NavLink>
       </nav>
+      <button onClick={toggleTheme}>
+        {theme === 'light' ? '☀️ Light' : '🌙 Dark'}
+      </button>
     </header>
   );
 };

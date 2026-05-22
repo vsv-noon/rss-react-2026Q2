@@ -3,11 +3,34 @@
   width: 100%;
   margin: 0 auto;
   padding: rem(5);
+  display: flex;
+  justify-content: space-between;
 }
 
 .navLink {
   text-decoration: none;
   color: #000;
+}
+
+:global([data-theme='dark']) .navLink {
+  color: #f5f5f5;
+}
+
+.header button {
+  padding: rem(5) rem(10);
+  border: transparent;
+  border-radius: rem(8);
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.header button:hover {
+  background-color: var(--color-gray-400);
+}
+
+:global([data-theme='dark']) .header button {
+  background-color: #313131;
+  color: #f5f5f5;
 }
 
 .isActive {

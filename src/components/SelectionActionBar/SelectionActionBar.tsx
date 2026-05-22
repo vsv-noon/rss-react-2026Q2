@@ -18,8 +18,6 @@ const SelectionActionBar: React.FC = () => {
   );
   const linkRef = useRef<HTMLAnchorElement>(null);
 
-  console.log(selectedCharacters);
-
   if (selectedCharacters.length === 0) return null;
 
   const handleUnselectAll = () => {

@@ -8,6 +8,11 @@
   padding: rem(20);
 }
 
+:global([data-theme='dark']) .searchSection {
+  background-color: #313131;
+  color: #f5f5f5;
+}
+
 .input {
   height: rem(40);
   width: rem(400);
