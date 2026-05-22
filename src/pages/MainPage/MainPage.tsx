@@ -8,6 +8,7 @@ import Loader from '@/components/Loader';
 import Pagination from '@/components/Pagination';
 import ResultList from '@/components/ResultList';
 import SearchSection from '@/components/SearchSection';
+import SelectionActionBar from '@/components/SelectionActionBar/SelectionActionBar';
 import { useAppSelector } from '@/store/hooks';
 
 const MainPage: React.FC = () => {
@@ -55,6 +56,7 @@ const MainPage: React.FC = () => {
         </>
       )}
       {!isLoading && characters?.error && <h3>{`${characters.error}`}</h3>}
+      <SelectionActionBar />
     </div>
   );
 };

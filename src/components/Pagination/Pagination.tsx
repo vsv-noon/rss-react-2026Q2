@@ -10,7 +10,7 @@ const Pagination: React.FC = () => {
   const [searchParams] = useSearchParams();
   const currentPage = searchParams.get('page') || DEFAULT_PAGE;
   const totalPages = useAppSelector((state) => state.characters.totalPages);
-  console.log(totalPages);
+
   const handlePageChange = (newPage: number) => {
     const validPage = Math.max(1, Math.min(newPage, totalPages));
 

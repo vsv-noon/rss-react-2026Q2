@@ -1,0 +1,76 @@
+.selectionActionBar {
+  position: fixed;
+  bottom: rem(24);
+  left: 50%;
+  transform: translateX(-50%);
+  color: #ffffff;
+  background-color: #1f1f1f;
+  padding: rem(14) rem(28);
+  border-radius: rem(12);
+  box-shadow: 0 rem(8) rem(24) rgba(0, 0, 0, 0.25);
+  z-index: 1000;
+  animation: slideUp 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.barContent {
+  display: flex;
+  align-items: center;
+  gap: rem(32);
+}
+
+.barText {
+  font-family: 'Inter', sans-serif;
+  display: flex;
+  gap: rem(14);
+}
+
+.barText span {
+  min-width: rem(24);
+}
+
+.barActions {
+  display: flex;
+  gap: rem(12);
+}
+
+.barActions button {
+  padding: rem(8) rem(16);
+  border-radius: rem(6);
+  font-size: rem(14);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.unselectBtn {
+  background-color: transparent;
+  color: #aaaaaa;
+  border: 1px solid #444444;
+}
+
+.unselectBtn:hover {
+  color: #ffffff;
+  border-color: #ffffff;
+}
+
+.downloadBtn {
+  background-color: #007bff;
+
+  color: #ffffff;
+  border: none;
+}
+
+.downloadBtn:hover {
+  background-color: #0056b3;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translate(-50%, 120%);
+    opacity: 0;
+  }
+  to {
+    transform: translate(-50%, 0);
+    opacity: 1;
+  }
+}
