@@ -1,6 +1,6 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { vi, describe, it, expect, type Mock } from 'vitest';
+import { vi, describe, it, expect } from 'vitest';
 
 import MainPage from './MainPage';
 
