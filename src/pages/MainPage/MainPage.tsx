@@ -35,7 +35,7 @@ const MainPage: React.FC = () => {
       onClick={handleCloseCharacterDetails}
     >
       <SearchSection />
-      <button className={styles.button} onClick={handleCrashErrorClick}>
+      <button className={styles.crashBtn} onClick={handleCrashErrorClick}>
         Create an error!
       </button>
 

@@ -6,11 +6,11 @@
   background-color: var(--color-amber-100);
   gap: rem(20);
   padding: rem(20);
+  color: var(--text-color);
 }
 
 :global([data-theme='dark']) .searchSection {
-  background-color: #313131;
-  color: #f5f5f5;
+  background-color: var(--background-color-gray);
 }
 
 .input {
