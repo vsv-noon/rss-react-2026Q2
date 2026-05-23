@@ -4,7 +4,7 @@ import { vi, describe, it, expect } from 'vitest';
 
 import MainPage from './MainPage';
 
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { useAppSelector } from '@/store/hooks';
 
 vi.mock('react-router-dom', async () => {
   const actual = await vi.importActual('react-router-dom');
