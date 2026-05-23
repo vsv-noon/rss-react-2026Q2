@@ -4,7 +4,7 @@ import { vi, describe, it, expect } from 'vitest';
 
 import MainPage from './MainPage';
 
-import { useAppSelector } from '@/store/hooks';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 
 vi.mock('react-router-dom', async () => {
   const actual = await vi.importActual('react-router-dom');
@@ -18,6 +18,7 @@ vi.mock('react-router-dom', async () => {
 
 vi.mock('@/store/hooks', () => ({
   useAppSelector: vi.fn(),
+  useAppDispatch: vi.fn(),
 }));
 
 vi.mock('@/components/SearchSection', () => ({
