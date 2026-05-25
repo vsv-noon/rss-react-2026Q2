@@ -7,11 +7,16 @@ import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   plugins: [react()],
-  server: {
-    proxy: {
-      '/api': {
-        target: 'https://rickandmortyapi.com',
-        changeOrigin: true,
+  css: {
+    modules: {
+      localsConvention: 'camelCaseOnly',
+      generateScopedName: '[name]__[local]___[hash:base64:5]',
+    },
+    preprocessorOptions: {
+      scss: {
+        additionalData: `
+        @use "@/styles/functions" as *; 
+        `,
       },
     },
   },
@@ -21,14 +26,11 @@ export default defineConfig({
       '@': path.resolve(__dirname, '/src'),
     },
   },
-  css: {
-    modules: {
-      localsConvention: 'camelCaseOnly',
-      generateScopedName: '[name]__[local]___[hash:base64:5]',
-    },
-    preprocessorOptions: {
-      scss: {
-        additionalData: `@use "@/styles/_functions.scss" as *;`,
+  server: {
+    proxy: {
+      '/api': {
+        target: 'https://rickandmortyapi.com',
+        changeOrigin: true,
       },
     },
   },

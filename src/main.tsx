@@ -6,7 +6,7 @@ import { RouterProvider } from 'react-router-dom';
 
 import { ThemeProvider } from './context/ThemeProvider';
 import { router } from './router/router';
-import './index.css';
+import '@/styles/index.scss';
 import { store } from './store/store';
 
 createRoot(document.getElementById('root')!).render(
