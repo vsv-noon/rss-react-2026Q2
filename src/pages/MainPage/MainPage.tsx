@@ -14,7 +14,9 @@ import { useAppSelector } from '@/store/hooks';
 const MainPage: React.FC = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const { characters, isLoading } = useAppSelector((state) => state.characters);
+  const { characters, isLoading, error } = useAppSelector(
+    (state) => state.characters
+  );
   const [isCrashError, setIsCrashError] = useState<boolean>(false);
 
   const handleCloseCharacterDetails = () => {
@@ -42,7 +44,7 @@ const MainPage: React.FC = () => {
       <h1 className={styles.title}>Rick and Morty</h1>
 
       {isLoading && <Loader />}
-      {!isLoading && !characters?.error && (
+      {!isLoading && !error && !characters?.error && (
         <>
           <div className={styles.paginationBlock}>
             <Pagination />
@@ -56,6 +58,7 @@ const MainPage: React.FC = () => {
         </>
       )}
       {!isLoading && characters?.error && <h3>{`${characters.error}`}</h3>}
+      {!isLoading && error && <h3>{`${error}`}</h3>}
       <SelectionActionBar />
     </div>
   );

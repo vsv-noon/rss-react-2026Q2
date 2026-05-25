@@ -11,6 +11,15 @@ const Pagination: React.FC = () => {
   const currentPage = searchParams.get('page') || DEFAULT_PAGE;
   const totalPages = useAppSelector((state) => state.characters.totalPages);
 
+  const isPageInvalid =
+    isNaN(Number(currentPage)) ||
+    Number(currentPage) < Number(DEFAULT_PAGE) ||
+    Number(currentPage) > totalPages;
+
+  if (isPageInvalid) {
+    navigate(`/?page=1`);
+  }
+
   const handlePageChange = (newPage: number) => {
     const validPage = Math.max(1, Math.min(newPage, totalPages));
 
