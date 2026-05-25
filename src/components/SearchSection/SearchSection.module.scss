@@ -11,6 +11,10 @@
 
 :global([data-theme='dark']) .searchSection {
   background-color: var(--background-color-gray);
+
+  .input {
+    background-color: var(--color-gray-300);
+  }
 }
 
 .input {

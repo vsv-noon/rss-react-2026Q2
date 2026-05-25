@@ -12,6 +12,32 @@
   animation: slideUp 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+:global([data-theme='dark']) .selectionActionBar {
+  color: #000000;
+  background-color: #e2e2e2;
+
+  .unselectBtn {
+    color: #1f1f1f;
+    border: 1px solid #7e7e7e;
+  }
+
+  .unselectBtn:hover {
+    color: #050505;
+    border: 1px solid #4d4d4d;
+  }
+
+  .downloadBtn {
+    background-color: #149176;
+
+    color: #ffffff;
+    border: none;
+  }
+
+  .downloadBtn:hover {
+    background-color: #0a755e;
+  }
+}
+
 .barContent {
   display: flex;
   align-items: center;
@@ -62,6 +88,10 @@
 
 .downloadBtn:hover {
   background-color: #0056b3;
+}
+
+.hidden {
+  display: none;
 }
 
 @keyframes slideUp {
