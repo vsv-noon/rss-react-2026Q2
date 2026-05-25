@@ -6,6 +6,15 @@
   background-color: var(--color-amber-100);
   gap: rem(20);
   padding: rem(20);
+  color: var(--text-color);
+}
+
+:global([data-theme='dark']) .searchSection {
+  background-color: var(--background-color-gray);
+
+  .input {
+    background-color: var(--color-gray-300);
+  }
 }
 
 .input {

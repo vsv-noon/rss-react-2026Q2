@@ -1,7 +1,9 @@
 import { render, screen } from '@testing-library/react';
-import { describe, it, vi, expect, beforeEach, type Mock } from 'vitest';
 import { createMemoryRouter, Outlet, RouterProvider } from 'react-router-dom';
+import { describe, it, vi, expect, beforeEach, type Mock } from 'vitest';
+
 import { routesConfig } from './router';
+
 import { apiFetch } from '@/services/api';
 
 vi.mock('@/services/api', () => ({

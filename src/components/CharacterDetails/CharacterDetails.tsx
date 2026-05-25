@@ -1,8 +1,13 @@
-import { useOutletContext, useParams } from 'react-router-dom';
-import styles from './CharacterDetails.module.scss';
 import { useEffect, useState } from 'react';
-import type { Character } from '@/types/types';
+
+import { useOutletContext, useParams } from 'react-router-dom';
+
 import Loader from '../Loader';
+
+import styles from './CharacterDetails.module.scss';
+
+import type { Character } from '@/types/types';
+
 import { apiFetch } from '@/services/api';
 
 const CharacterDetails: React.FC = () => {

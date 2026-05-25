@@ -11,6 +11,11 @@
   height: 100%;
   background-color: var(--color-gray-100);
   box-shadow: 0 rem(12) rem(24) rgba(0, 0, 0, 0.2);
+  color: var(--text-color);
+}
+
+:global([data-theme='dark']) .detailsPanel {
+  background-color: var(--background-color-gray);
 }
 
 .detailsCard {
@@ -41,7 +46,8 @@
   font-weight: 700;
   border: rem(1) solid var(--color-gray-500);
   border-radius: 50%;
-  background-color: var(--color-amber-100);
+  background-color: var(--background-color);
+  color: var(--text-color);
   cursor: pointer;
   transition: all 0.3s ease-in-out;
 }

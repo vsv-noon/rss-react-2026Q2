@@ -1,8 +1,11 @@
-import Card from '@/components/Card';
-import type { ResultListProps } from './types';
 import styles from './ResultList.module.scss';
 
-const ResultList: React.FC<ResultListProps> = ({ characters }) => {
+import Card from '@/components/Card';
+import { useAppSelector } from '@/store/hooks';
+
+const ResultList: React.FC = () => {
+  const characters = useAppSelector((state) => state.characters.characters);
+
   return (
     <div className={styles.resultList}>
       <div className={styles.charactersList}>
