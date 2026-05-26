@@ -1,73 +1,24 @@
-# React + TypeScript + Vite
+[![React CI (Run Unit Tests)](https://github.com/vsv-noon/rss-react-2026Q2/actions/workflows/node.js.yml/badge.svg)](https://github.com/vsv-noon/rss-react-2026Q2/actions/workflows/node.js.yml)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Rick and Morty Client
 
-Currently, two official plugins are available:
+A feature-rich, responsive web application for browsing and managing characters from the Rick and Morty universe. Built as an educational project to master production-grade React workflows, comprehensive state management, and reliable unit testing.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Features
 
-## React Compiler
+- **Character Search & Pagination:** Fast filtering by name paired with smooth page-by-page navigation.
+- **Side-Panel Profile View:** Clicking a character card opens a detailed info panel on the right side using nested React Router `Outlet`.
+- **Stateful Character Selection:** Multi-select characters with selection states securely stored and managed via Redux Toolkit.
+- **SelectAction Bar:** A dynamic action bar appears when characters are chosen, displaying the current item count.
+- **CSV Data Export:** Seamlessly download data for all selected characters directly into a standard CSV format file.
+- **Theme Switching:** Toggle themes effortlessly on the fly with integrated custom style themes.
+- **Robust Error Handling:** Native 404 page for non-existent routes and solid error catching during API failures.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech Stack
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x';
-import reactDom from 'eslint-plugin-react-dom';
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
-```
+- **Core Frontend:** React (Hooks & Functional Components)
+- **Routing:** React Router DOM (Nested Routes, Error Boundaries)
+- **State Management:** Redux Toolkit (RTK) & RTK Query
+- **Styling:** SCSS, CSS Modules (Theming via CSS Variables)
+- **Testing:** Vitest (Comprehensive Unit Testing for logic and UI components)
+- **API:** The Rick and Morty API

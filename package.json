@@ -19,7 +19,8 @@
     "format:check": "prettier --check .",
     "prepare": "husky && chmod ug+x .husky/*",
     "test": "cross-env NODE_OPTIONS='--no-experimental-webstorage' vitest",
-    "test:coverage": "cross-env NODE_OPTIONS='--no-experimental-webstorage' vitest run --coverage"
+    "test:coverage": "cross-env NODE_OPTIONS='--no-experimental-webstorage' vitest run --coverage",
+    "test:ci": "vitest run"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
