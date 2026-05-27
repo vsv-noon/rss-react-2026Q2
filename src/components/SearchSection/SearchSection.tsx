@@ -1,19 +1,15 @@
 import { useEffect, useState, type ChangeEvent, type SubmitEvent } from 'react';
 
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 
 import styles from './SearchSection.module.scss';
 
 import { DEFAULT_PAGE } from '@/constants/constants';
 import useLocalStorage from '@/hooks/useLocalStorage';
-import { useAppDispatch } from '@/store/hooks';
-import { fetchCharacters } from '@/store/slices/charactersSlice';
 
 const SearchSection: React.FC = () => {
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
-  const currentPage = searchParams.get('page') || DEFAULT_PAGE;
+
   const [persistedSearch, setPersistedSearch] = useLocalStorage(
     'searchTerm',
     ''
@@ -21,19 +17,16 @@ const SearchSection: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>(persistedSearch);
 
   useEffect(() => {
-    const promise = dispatch(
-      fetchCharacters({ searchQuery: persistedSearch, page: currentPage })
-    );
-
-    return () => {
-      promise.abort();
-    };
-  }, [persistedSearch, currentPage, dispatch]);
-
-  useEffect(() => {
+    const newParams = new URLSearchParams(searchParams);
     if (!searchParams.has('page')) {
-      setSearchParams({ page: DEFAULT_PAGE }, { replace: true });
+      newParams.set('page', String(DEFAULT_PAGE));
     }
+
+    if (persistedSearch) {
+      newParams.set('name', persistedSearch);
+    }
+
+    setSearchParams(newParams);
   }, [searchParams, setSearchParams]);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -43,7 +36,16 @@ const SearchSection: React.FC = () => {
   const handleSubmit = (e: SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    navigate(`/?page=${DEFAULT_PAGE}`);
+    const newParams = new URLSearchParams(searchParams);
+    if (inputValue) {
+      newParams.set('name', inputValue);
+    } else {
+      newParams.delete('name');
+    }
+    newParams.set('page', String(DEFAULT_PAGE));
+
+    setSearchParams(newParams);
+
     setPersistedSearch(inputValue.trim());
     setInputValue(inputValue.trim());
   };
