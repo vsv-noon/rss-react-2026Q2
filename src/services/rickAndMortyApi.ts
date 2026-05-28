@@ -13,7 +13,11 @@ export const rickAndMortyApi = createApi({
         params: { name, page },
       }),
     }),
+    getCharacterById: builder.query({
+      query: (id) => `character/${id}`,
+    }),
   }),
 });
 
-export const { useGetCharactersQuery } = rickAndMortyApi;
+export const { useGetCharactersQuery, useGetCharacterByIdQuery } =
+  rickAndMortyApi;
