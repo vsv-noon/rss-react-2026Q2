@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 import { useSearchParams } from 'react-router-dom';
 
 import Loader from '../Loader';
@@ -7,18 +9,32 @@ import styles from './ResultList.module.scss';
 
 import Card from '@/components/Card';
 import { DEFAULT_PAGE } from '@/constants/constants';
+import { useNavigateWithParams } from '@/hooks/useNavigateWithParams';
 import { useGetCharactersQuery } from '@/services/rickAndMortyApi';
 
 const ResultList: React.FC = () => {
   const [searchParams] = useSearchParams();
   const searchTerm = searchParams.get('name') || '';
-  const page = Number(searchParams.get('page') || DEFAULT_PAGE);
+  const currentPage = Number(searchParams.get('page') || DEFAULT_PAGE);
+  const pageParam = searchParams.get('page');
+  const { navigateToPage } = useNavigateWithParams();
+
   const { data, isLoading, isFetching, isError, error } = useGetCharactersQuery(
     {
       name: searchTerm,
-      page: page,
+      page: currentPage,
     }
   );
+
+  const isInvalidPage =
+    (pageParam !== null && isNaN(Number(pageParam))) ||
+    currentPage < DEFAULT_PAGE;
+
+  useEffect(() => {
+    if (isInvalidPage) {
+      navigateToPage(DEFAULT_PAGE);
+    }
+  }, [isInvalidPage, navigateToPage]);
 
   if (isLoading) {
     return <Loader variant="fullscreen" />;
