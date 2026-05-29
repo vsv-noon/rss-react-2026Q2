@@ -88,3 +88,32 @@
   font-style: italic;
   opacity: 0.8;
 }
+
+.buttonBlock {
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: rem(5);
+  margin-bottom: rem(10);
+}
+
+.invalidateCacheBtn {
+  font-size: rem(14);
+  line-height: 1, 5;
+  border: transparent;
+  border-radius: rem(8);
+  padding: rem(8) rem(20);
+  background-color: var(--color-gray-300);
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+
+  P {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.invalidateCacheBtn:hover {
+  background-color: var(--color-gray-400);
+}

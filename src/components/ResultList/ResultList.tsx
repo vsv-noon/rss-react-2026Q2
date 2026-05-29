@@ -10,6 +10,7 @@ import styles from './ResultList.module.scss';
 import Card from '@/components/Card';
 import { DEFAULT_PAGE } from '@/constants/constants';
 import { useNavigateWithParams } from '@/hooks/useNavigateWithParams';
+import { useRefreshCache } from '@/hooks/useRefreshCache';
 import { useGetCharactersQuery } from '@/services/rickAndMortyApi';
 
 const ResultList: React.FC = () => {
@@ -25,6 +26,8 @@ const ResultList: React.FC = () => {
       page: currentPage,
     }
   );
+
+  const { refreshCacheCharacters } = useRefreshCache();
 
   const isInvalidPage =
     (pageParam !== null && isNaN(Number(pageParam))) ||
@@ -55,6 +58,13 @@ const ResultList: React.FC = () => {
 
       {!isFetching && !isError && data?.results && data?.info && (
         <div className={styles.resultList}>
+          <button
+            className={styles.invalidateCacheBtn}
+            onClick={() => refreshCacheCharacters()}
+          >
+            Invalidate Cache
+          </button>
+
           <div className={styles.paginationBlock}>
             <Pagination totalPages={data.info.pages} />
           </div>
