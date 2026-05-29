@@ -5,6 +5,7 @@ import Loader from '../Loader';
 import styles from './CharacterDetails.module.scss';
 
 import { useGetCharacterByIdQuery } from '@/services/rickAndMortyApi';
+import { getErrorMessage } from '@/utils/getErrorMessage';
 
 const CharacterDetails: React.FC = () => {
   const { id } = useParams();
@@ -16,16 +17,26 @@ const CharacterDetails: React.FC = () => {
   const { data, isLoading, isFetching, isError, error } =
     useGetCharacterByIdQuery(id);
 
+  if (isLoading) {
+    return <Loader variant="fullscreen" />;
+  }
+
+  console.log(error);
+
   return (
     <div className={styles.detailsPanel}>
-      {isLoading && <Loader variant="fullscreen" />}
       {isError && error && 'status' in error && (
         <div className={styles.errorMessage} data-testid="error-message">
-          {error.status}
+          <div className={styles.errorLabel}>⚠️ Error code: </div>
+          <code className={styles.errorCode}>{error.status}</code>
+
+          <p className={styles.errorDetails}>{getErrorMessage(error)}</p>
         </div>
       )}
+
       {isFetching && <Loader variant="overlay" />}
-      {data && (
+
+      {!isError && !isFetching && data && (
         <div
           className={styles.detailsCard}
           style={{ opacity: isFetching ? 0.5 : 1, transition: 'opacity 0.2s' }}

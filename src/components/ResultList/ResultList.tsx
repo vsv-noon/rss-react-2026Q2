@@ -20,14 +20,24 @@ const ResultList: React.FC = () => {
     }
   );
 
+  if (isLoading) {
+    return <Loader variant="fullscreen" />;
+  }
+
   return (
-    <div className={styles.resultLstContainer}>
-      {isLoading && <Loader variant="fullscreen" />}
-      {isFetching && <Loader variant="fullscreen" />}
+    <div className={styles.resultListContainer}>
+      {isError && (
+        <div className={styles.error}>
+          <p>Error fetching characters:</p>
+          <pre className={styles.jsonBlock}>
+            {JSON.stringify(error, null, 2)}
+          </pre>
+        </div>
+      )}
 
-      {isError && <div>Error fetching characters: {JSON.stringify(error)}</div>}
+      {isFetching && <Loader variant="overlay" />}
 
-      {data?.results && data?.info && (
+      {!isFetching && !isError && data?.results && data?.info && (
         <div className={styles.resultList}>
           <div className={styles.paginationBlock}>
             <Pagination totalPages={data.info.pages} />

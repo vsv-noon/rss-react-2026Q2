@@ -1,13 +1,13 @@
 .detailsPanel {
-  position: relative;
-  display: flex;
   position: sticky;
   position: -webkit-sticky;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   top: 0;
   overflow-x: hidden;
   overflow-y: auto;
-  justify-content: center;
-  align-items: center;
   width: rem(300);
   height: 100%;
   background-color: var(--color-gray-100);
@@ -57,4 +57,34 @@
   color: var(--color-gray-500);
   border: rem(1) solid var(--color-gray-500);
   box-shadow: 0 rem(12) rem(24) rgba(0, 0, 0, 0.2);
+}
+
+.errorMessage {
+  display: flex;
+  flex-direction: column;
+  gap: rem(8);
+  padding: rem(12) rem(16);
+  background-color: #fff5f5;
+  border-left: rem(4) solid #e53e3e;
+  border-radius: rem(4);
+  color: #c53030;
+  font-size: rem(14);
+}
+
+.errorLabel {
+  font-weight: 600;
+}
+
+.errorCode {
+  font-family: monospace;
+  background-color: #fed7d7;
+  padding: rem(2) rem(6);
+  border-radius: rem(4);
+  width: max-content;
+}
+
+.errorDetails {
+  margin: rem(4) 0 0 0;
+  font-style: italic;
+  opacity: 0.8;
 }
