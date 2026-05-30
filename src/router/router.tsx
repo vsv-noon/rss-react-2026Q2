@@ -19,7 +19,7 @@ export const routesConfig: RouteObject[] = [
           const MainPage = await import('@/pages/MainPage');
           return { Component: MainPage.default };
         },
-        HydrateFallback: Loader,
+        HydrateFallback: () => <Loader variant="fullscreen" />,
         children: [
           {
             path: 'details/:id',
@@ -28,7 +28,7 @@ export const routesConfig: RouteObject[] = [
                 await import('@/components/CharacterDetails');
               return { Component: CharacterDetails.default };
             },
-            HydrateFallback: Loader,
+            HydrateFallback: () => <Loader variant="fullscreen" />,
           },
         ],
       },
@@ -38,7 +38,7 @@ export const routesConfig: RouteObject[] = [
           const About = await import('@/pages/About');
           return { Component: About.default };
         },
-        HydrateFallback: Loader,
+        HydrateFallback: () => <Loader variant="fullscreen" />,
       },
       {
         path: '*',
@@ -46,7 +46,7 @@ export const routesConfig: RouteObject[] = [
           const NotFound = await import('@/pages/NotFound');
           return { Component: NotFound.default };
         },
-        HydrateFallback: Loader,
+        HydrateFallback: () => <Loader variant="fullscreen" />,
       },
     ],
   },
