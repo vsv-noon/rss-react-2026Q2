@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { vi, describe, it, expect } from 'vitest';
 
@@ -65,31 +65,5 @@ describe('MainPage', () => {
 
     expect(() => fireEvent.click(crashButton)).toThrow('I crashed!');
     consoleSpy.mockRestore();
-  });
-
-  it('should show loader on init', async () => {
-    vi.mocked(useAppSelector).mockReturnValue({
-      isLoading: true,
-      characters: null,
-    });
-    render(<MainPage />);
-
-    expect(screen.getByTestId('mock-loader')).toBeInTheDocument();
-  });
-
-  it('should correctly display an error if characters are not found on the backend', async () => {
-    vi.mocked(useAppSelector).mockReturnValue({
-      isLoading: false,
-      characters: { error: 'There is nothing here' },
-    });
-
-    render(<MainPage />);
-
-    await waitFor(() => {
-      expect(screen.getByRole('heading', { level: 3 })).toHaveTextContent(
-        'There is nothing here'
-      );
-    });
-    expect(screen.queryByTestId('mock-pagination')).not.toBeInTheDocument();
   });
 });

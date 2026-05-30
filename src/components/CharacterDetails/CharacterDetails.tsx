@@ -1,9 +1,8 @@
 import { useOutletContext, useParams } from 'react-router-dom';
 
-import Loader from '../Loader';
-
 import styles from './CharacterDetails.module.scss';
 
+import Loader from '@/components/Loader';
 import { useRefreshCache } from '@/hooks/useRefreshCache';
 import { useGetCharacterByIdQuery } from '@/services/rickAndMortyApi';
 import { getErrorMessage } from '@/utils/getErrorMessage';
