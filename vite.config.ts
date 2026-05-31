@@ -1,7 +1,5 @@
 /// <reference types="vitest" />
 
-import path from 'path';
-
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vitest/config';
 
@@ -15,16 +13,13 @@ export default defineConfig({
     preprocessorOptions: {
       scss: {
         additionalData: `
-        @use "@/styles/functions" as *; 
+        @use "/src/styles/functions" as *; 
         `,
       },
     },
   },
   resolve: {
     tsconfigPaths: true,
-    alias: {
-      '@': path.resolve(__dirname, '/src'),
-    },
   },
   server: {
     proxy: {

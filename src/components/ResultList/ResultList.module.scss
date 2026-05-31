@@ -1,4 +1,10 @@
+.resultListContainer {
+  display: flex;
+  flex-grow: 1;
+}
+
 .resultList {
+  flex-grow: 1;
   margin: 0 auto;
   text-align: center;
   padding: rem(20);
@@ -17,4 +23,44 @@
   justify-content: center;
   align-items: center;
   gap: rem(15);
+}
+
+.paginationBlock {
+  margin-bottom: rem(20);
+}
+
+.error {
+  padding: rem(16);
+  background-color: #fff5f5;
+  color: #c53030;
+
+  p {
+    font-weight: bold;
+    margin-bottom: rem(8);
+  }
+}
+
+.jsonBlock {
+  margin: 0;
+  padding: rem(12);
+  background-color: #1a202c;
+  color: #f7fafc;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: rem(14);
+  overflow: auto;
+  white-space: pre-wrap;
+}
+
+.invalidateCacheBtn {
+  height: rem(40);
+  border: transparent;
+  border-radius: rem(8);
+  padding: rem(8) rem(20);
+  background-color: var(--color-gray-300);
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.invalidateCacheBtn:hover {
+  background-color: var(--color-gray-400);
 }

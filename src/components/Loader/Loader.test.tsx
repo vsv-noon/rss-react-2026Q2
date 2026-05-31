@@ -5,7 +5,7 @@ import Loader from '.';
 
 describe('Loader', () => {
   it('should renders without crashing', () => {
-    render(<Loader />);
+    render(<Loader variant="fullscreen" />);
     expect(screen.getByRole('status')).toBeInTheDocument();
   });
 });

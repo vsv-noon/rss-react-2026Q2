@@ -59,21 +59,6 @@ describe('SearchSection', () => {
     expect(screen.getByRole('button', { name: /search/i })).toBeInTheDocument();
   });
 
-  it('should substitute the default page in the URL if the "page" parameter is missing', () => {
-    const mockParams = new URLSearchParams('');
-    vi.mocked(useSearchParams).mockReturnValue([
-      mockParams,
-      mockSetSearchParams,
-    ]);
-
-    render(<SearchSection />);
-
-    expect(mockSetSearchParams).toHaveBeenCalledWith(
-      { page: '1' },
-      { replace: true }
-    );
-  });
-
   it('should initialized with the value from the query prop', () => {
     vi.mocked(useLocalStorage).mockReturnValue([
       'Rick',

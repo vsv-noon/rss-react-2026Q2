@@ -1,10 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import { createMemoryRouter, Outlet, RouterProvider } from 'react-router-dom';
-import { describe, it, vi, expect, beforeEach, type Mock } from 'vitest';
+import { describe, it, vi, expect, beforeEach } from 'vitest';
 
 import { routesConfig } from './router';
-
-import { apiFetch } from '@/services/api';
 
 vi.mock('@/services/api', () => ({
   apiFetch: vi.fn(),
@@ -41,11 +39,6 @@ vi.mock('@/pages/NotFound', () => ({
 describe('Application Routing Suite', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    (apiFetch as Mock).mockResolvedValue({
-      id: '42',
-      name: 'Mock Character',
-      location: { name: 'Earth' },
-    });
   });
 
   it('should render RootLayout and MainPage when navigating to root "/"', async () => {

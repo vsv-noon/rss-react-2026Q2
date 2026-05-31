@@ -1,68 +1,83 @@
-import { useEffect, useState } from 'react';
-
 import { useOutletContext, useParams } from 'react-router-dom';
-
-import Loader from '../Loader';
 
 import styles from './CharacterDetails.module.scss';
 
-import type { Character } from '@/types/types';
-
-import { apiFetch } from '@/services/api';
+import Loader from '@/components/Loader';
+import { useRefreshCache } from '@/hooks/useRefreshCache';
+import { useGetCharacterByIdQuery } from '@/services/rickAndMortyApi';
+import { getErrorMessage } from '@/utils/getErrorMessage';
 
 const CharacterDetails: React.FC = () => {
   const { id } = useParams();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
-  const [character, setCharacter] = useState<Character | null>(null);
+
   const { handleCloseCharacterDetails } = useOutletContext<{
     handleCloseCharacterDetails: () => void;
   }>();
 
-  useEffect(() => {
-    const getCharacterDetails = async (characterId?: string) => {
-      try {
-        setIsLoading(true);
-        setError(null);
+  const { data, isLoading, isFetching, isError, error } =
+    useGetCharacterByIdQuery(id);
 
-        const data = await apiFetch({ id: characterId });
-        setCharacter(data);
-      } catch (err) {
-        const typedError = err as Error;
-        console.error('Failed to fetch characters', typedError);
-        setError('Failed to fetch characters. Please try again later.');
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    getCharacterDetails(id);
-  }, [id]);
+  const { refreshCacheCharacterDetails } = useRefreshCache();
 
   return (
     <div className={styles.detailsPanel}>
-      {isLoading && <Loader />}
-      {!isLoading && error && (
+      {isLoading && <Loader variant="overlay" />}
+
+      {isError && error && 'status' in error && (
         <div className={styles.errorMessage} data-testid="error-message">
-          {error}
+          <div className={styles.errorLabel}>⚠️ Error code: </div>
+          <code className={styles.errorCode}>{error.status}</code>
+
+          <p className={styles.errorDetails}>{getErrorMessage(error)}</p>
         </div>
       )}
-      {!isLoading && !error && character && (
-        <div className={styles.detailsCard}>
+
+      {isFetching && <Loader variant="overlay" />}
+
+      {!isError && !isFetching && data && (
+        <>
+          <div className={styles.buttonBlock}>
+            <button
+              className={styles.invalidateCacheBtn}
+              onClick={() => refreshCacheCharacterDetails()}
+            >
+              <p>
+                Invalidate Cache:<span>All Character Details</span>
+              </p>
+            </button>
+
+            <button
+              className={styles.invalidateCacheBtn}
+              onClick={() => refreshCacheCharacterDetails(id)}
+            >
+              <p>
+                Invalidate Cache:<span>{data.name}</span>
+              </p>
+            </button>
+          </div>
+
           <div
-            className={styles.closeBtn}
-            onClick={handleCloseCharacterDetails}
+            className={styles.detailsCard}
+            style={{
+              opacity: isFetching ? 0.5 : 1,
+              transition: 'opacity 0.2s',
+            }}
           >
-            x
+            <div
+              className={styles.closeBtn}
+              onClick={handleCloseCharacterDetails}
+            >
+              x
+            </div>
+            <div className={styles.image}>
+              <img src={data.image} alt={data.name} />
+            </div>
+            <h4>Name: {data.name}</h4>
+            <p>Status: {data.status}</p>
+            <p>Species: {data.species}</p>
+            <p>Location: {data.location.name}</p>
           </div>
-          <div className={styles.image}>
-            <img src={character.image} alt={character.name} />
-          </div>
-          <h4>Name: {character.name}</h4>
-          <p>Status: {character.status}</p>
-          <p>Species: {character.species}</p>
-          <p>Location: {character.location.name}</p>
-        </div>
+        </>
       )}
     </div>
   );

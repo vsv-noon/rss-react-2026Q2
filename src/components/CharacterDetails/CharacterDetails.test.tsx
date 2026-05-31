@@ -1,101 +1,167 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import { useParams, useOutletContext, MemoryRouter } from 'react-router-dom';
-import {
-  describe,
-  it,
-  vi,
-  expect,
-  beforeEach,
-  afterEach,
-  type Mock,
-} from 'vitest';
+import { useParams, useOutletContext } from 'react-router-dom';
+import { describe, it, vi, expect, beforeEach, type Mock } from 'vitest';
 
 import CharacterDetails from './CharacterDetails';
 
-import * as api from '@/services/api';
+import { useRefreshCache } from '@/hooks/useRefreshCache';
+import { useGetCharacterByIdQuery } from '@/services/rickAndMortyApi';
+import { getErrorMessage } from '@/utils/getErrorMessage';
 
-vi.mock('react-router-dom', async () => {
-  const actual = await vi.importActual<object>('react-router-dom');
-  return {
-    ...actual,
-    useParams: vi.fn(),
-    useOutletContext: vi.fn(),
-  };
-});
-
-vi.mock('@/services/api', () => ({
-  apiFetch: vi.fn(),
+vi.mock('react-router-dom', async () => ({
+  useParams: vi.fn(),
+  useOutletContext: vi.fn(),
 }));
 
-vi.mock('@components/Loader', () => ({
-  default: () => <div data-testid="loader">Loading...</div>,
+vi.mock('@/services/rickAndMortyApi', () => ({
+  useGetCharacterByIdQuery: vi.fn(),
+}));
+
+vi.mock('@/hooks/useRefreshCache', () => ({
+  useRefreshCache: vi.fn(),
+}));
+
+vi.mock('@/utils/getErrorMessage', () => ({
+  getErrorMessage: vi.fn(() => 'Mocked Error Message'),
+}));
+
+vi.mock('@/components/Loader', () => ({
+  default: ({ variant }: { variant: string }) => (
+    <div data-testid="loader" data-variant={variant}>
+      Loading...
+    </div>
+  ),
 }));
 
 describe('CharacterDetails', () => {
-  const mockCharacter = {
-    id: '1',
+  const mockHandleClose = vi.fn();
+  const mockRefreshCacheCharacterDetails = vi.fn();
+
+  const mockCharacterData = {
     name: 'Rick Sanchez',
-    image: 'rick.png',
     status: 'Alive',
-    location: 'Earth',
+    species: 'Human',
+    image: 'https://rickandmortyapi.com/api/character/avatar/1.jpeg',
+    location: { name: 'Earth (C-137)' },
   };
 
-  const handleCloseCharacterDetails = vi.fn();
-
   beforeEach(() => {
-    (useParams as Mock).mockReturnValue({ id: '1' });
-    (useOutletContext as Mock).mockReturnValue({
-      handleCloseCharacterDetails,
-    });
-    (api.apiFetch as Mock).mockResolvedValue(mockCharacter);
-  });
-
-  afterEach(() => {
     vi.clearAllMocks();
+    vi.mocked(useParams).mockReturnValue({ id: '1' });
+    vi.mocked(useOutletContext).mockReturnValue({
+      handleCloseCharacterDetails: mockHandleClose,
+    });
+    vi.mocked(useRefreshCache).mockReturnValue({
+      refreshCacheCharacterDetails: mockRefreshCacheCharacterDetails,
+      refreshCacheCharacters: vi.fn(),
+    });
   });
 
-  it('should render the loader initially', async () => {
-    render(
-      <MemoryRouter>
-        <CharacterDetails />
-      </MemoryRouter>
-    );
-    expect(screen.getByRole('status')).toBeInTheDocument();
+  it('should render only the fullscreen loader when initial data is loading', async () => {
+    (useGetCharacterByIdQuery as Mock).mockReturnValue({
+      data: undefined,
+      isLoading: true,
+      isFetching: false,
+      isError: false,
+      error: null,
+    });
 
-    await screen.findAllByText('x');
+    render(<CharacterDetails />);
+
+    const loader = screen.getByTestId('loader');
+    expect(loader).toBeInTheDocument();
+    expect(loader).toHaveAttribute('data-variant', 'overlay');
+    expect(screen.queryByText('Name: Rick Sanchez')).not.toBeInTheDocument();
+  });
+
+  it('should render background overlay loader when isFetching is true but isLoading is false', () => {
+    (useGetCharacterByIdQuery as Mock).mockReturnValue({
+      data: mockCharacterData,
+      isLoading: false,
+      isFetching: true,
+      isError: false,
+      error: null,
+    });
+
+    render(<CharacterDetails />);
+
+    const loader = screen.getByTestId('loader');
+    expect(loader).toBeInTheDocument();
+    expect(loader).toHaveAttribute('data-variant', 'overlay');
+  });
+
+  it('renders character details successfully when data is loading', () => {
+    (useGetCharacterByIdQuery as Mock).mockReturnValue({
+      data: mockCharacterData,
+      isLoading: false,
+      isFetching: false,
+      isError: false,
+      error: null,
+    });
+
+    render(<CharacterDetails />);
+
+    expect(screen.getByText(/Name: Rick Sanchez/)).toBeInTheDocument();
+    expect(screen.getByText(/Status: Alive/)).toBeInTheDocument();
   });
 
   it('should call handleCloseCharacterDetails when close button is clicked', async () => {
-    render(
-      <MemoryRouter>
-        <CharacterDetails />
-      </MemoryRouter>
-    );
+    (useGetCharacterByIdQuery as Mock).mockReturnValue({
+      data: mockCharacterData,
+      isLoading: false,
+      isFetching: false,
+      isError: false,
+      error: null,
+    });
+
+    render(<CharacterDetails />);
 
     const closeButton = await screen.findByText('x');
 
     fireEvent.click(closeButton);
 
-    expect(handleCloseCharacterDetails).toHaveBeenCalled();
+    expect(mockHandleClose).toHaveBeenCalledTimes(1);
   });
 
   it('should display an error message in the UI when the API request fails', async () => {
-    (api.apiFetch as Mock).mockRejectedValueOnce(new Error('Database Down'));
+    const mockError = { status: 404, data: 'Not Found' };
+    (useGetCharacterByIdQuery as Mock).mockReturnValue({
+      data: undefined,
+      isLoading: false,
+      isFetching: false,
+      isError: true,
+      error: mockError,
+    });
 
-    render(
-      <MemoryRouter>
-        <CharacterDetails />
-      </MemoryRouter>
-    );
+    render(<CharacterDetails />);
+
+    expect(screen.getByText(/Error code/)).toBeInTheDocument();
 
     const errorMessage = await screen.findByTestId('error-message');
 
     expect(errorMessage).toBeInTheDocument();
-    expect(errorMessage).toHaveTextContent(
-      'Failed to fetch characters. Please try again later.'
-    );
+    expect(getErrorMessage).toHaveBeenCalledWith(mockError);
 
     expect(screen.queryByTestId('loader')).not.toBeInTheDocument();
-    expect(screen.queryByText('Name:')).not.toBeInTheDocument();
+  });
+
+  it('should trigger cache invalidation hooks correctly when buttons are clicked', () => {
+    (useGetCharacterByIdQuery as Mock).mockReturnValue({
+      data: mockCharacterData,
+      isLoading: false,
+      isFetching: false,
+      isError: false,
+      error: null,
+    });
+
+    render(<CharacterDetails />);
+
+    const invalidateAllBtn = screen.getByText('All Character Details');
+    fireEvent.click(invalidateAllBtn);
+    expect(mockRefreshCacheCharacterDetails).toHaveBeenNthCalledWith(1);
+
+    const invalidateSpecificBtn = screen.getByText('Rick Sanchez');
+    fireEvent.click(invalidateSpecificBtn);
+    expect(mockRefreshCacheCharacterDetails).toHaveBeenNthCalledWith(2, '1');
   });
 });

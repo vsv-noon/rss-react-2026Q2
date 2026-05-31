@@ -1,8 +1,11 @@
 .pagination {
+  margin: 0 auto;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: rem(10);
+  padding: rem(5);
+  width: max-content;
 }
 
 .button {

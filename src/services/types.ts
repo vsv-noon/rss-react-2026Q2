@@ -3,3 +3,8 @@ export type ApiFetchProps = {
   searchString?: string;
   page?: string;
 };
+
+export type getCharactersArgs = {
+  name: string;
+  page: number;
+};
