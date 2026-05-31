@@ -19,7 +19,7 @@ export const getErrorMessage = (
       default:
         return (
           (error.data as RickAndMortyApiError)?.error ||
-          `ПAn error occurred. (Status: ${error.status})`
+          `An error occurred. (Status: ${error.status})`
         );
     }
   }
