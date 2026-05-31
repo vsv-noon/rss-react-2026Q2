@@ -19,12 +19,10 @@ const CharacterDetails: React.FC = () => {
 
   const { refreshCacheCharacterDetails } = useRefreshCache();
 
-  if (isLoading) {
-    return <Loader variant="fullscreen" />;
-  }
-
   return (
     <div className={styles.detailsPanel}>
+      {isLoading && <Loader variant="overlay" />}
+
       {isError && error && 'status' in error && (
         <div className={styles.errorMessage} data-testid="error-message">
           <div className={styles.errorLabel}>⚠️ Error code: </div>

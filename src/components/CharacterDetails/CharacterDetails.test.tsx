@@ -70,7 +70,7 @@ describe('CharacterDetails', () => {
 
     const loader = screen.getByTestId('loader');
     expect(loader).toBeInTheDocument();
-    expect(loader).toHaveAttribute('data-variant', 'fullscreen');
+    expect(loader).toHaveAttribute('data-variant', 'overlay');
     expect(screen.queryByText('Name: Rick Sanchez')).not.toBeInTheDocument();
   });
 
