@@ -1,0 +1,21 @@
+.main {
+  margin: 0 auto;
+  max-width: rem(1280);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: rem(20);
+}
+
+.btn {
+  padding: rem(10);
+  border: transparent;
+  border-radius: rem(8);
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    background-color: #929191;
+  }
+}

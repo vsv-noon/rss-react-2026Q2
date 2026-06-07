@@ -1,0 +1,23 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: rem(5);
+  padding: rem(10);
+
+  input,
+  select {
+    padding: rem(5);
+    background-color: #fff;
+  }
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+}
+
+.error {
+  font-size: rem(10);
+  color: red;
+  height: rem(10);
+}
