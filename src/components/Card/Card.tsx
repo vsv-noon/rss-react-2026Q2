@@ -31,7 +31,7 @@ const Card: React.FC<CardProps> = ({ character }) => {
       />
       <Link
         className={styles.card}
-        href={`details/${character.id}?${searchParams?.toString()}`}
+        href={`/details/${character.id}?${searchParams?.toString()}`}
         onClick={(e) => e.stopPropagation()}
       >
         <Image

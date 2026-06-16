@@ -1,5 +1,5 @@
 import CharacterDetails from '@/components/CharacterDetails';
 
-export default function DetailsPage() {
+export default function SidebarDetailsPage() {
   return <CharacterDetails />;
 }

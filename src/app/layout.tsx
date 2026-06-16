@@ -17,16 +17,25 @@ export const metadata: Metadata = {
     'A feature-rich, responsive web application for browsing and managing characters from the Rick and Morty universe.',
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default function RootLayout({
+  children,
+  sidebar,
+}: {
+  children: ReactNode;
+  sidebar: ReactNode;
+}) {
   return (
-    <html lang="en">
+    <html lang="en" data-scroll-behavior="smooth">
       <body>
         <ErrorBoundary>
           <ThemeProvider>
             <Providers>
               <div className={styles.rootLayout}>
                 <Header />
-                <main className={styles.mainContent}>{children}</main>
+                <div className={styles.mainContainer}>
+                  <main className={styles.mainContent}>{children}</main>
+                  <aside className={styles.sidebarContent}>{sidebar}</aside>
+                </div>
                 <Footer />
               </div>
             </Providers>

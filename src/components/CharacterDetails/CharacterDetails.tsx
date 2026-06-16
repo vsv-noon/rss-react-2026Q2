@@ -18,9 +18,9 @@ export default function CharacterDetails() {
   const id = params.id;
 
   const handleCloseCharacterDetails = () => {
-    if (searchParams) {
-      router.push(`/?${searchParams.toString()}`);
-    }
+    // if (searchParams) {
+    router.push(`/`, { scroll: false });
+    // }
   };
 
   const { data, isLoading, isFetching, isError, error } =
@@ -83,7 +83,7 @@ export default function CharacterDetails() {
                 src={data.image}
                 alt={data.name}
                 width={300}
-                height={300}
+                height={310}
                 priority
               />
             </div>
