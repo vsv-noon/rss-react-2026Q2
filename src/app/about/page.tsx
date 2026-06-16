@@ -1,10 +1,10 @@
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 import { GITHUB_LINK, REACT_COURSE_LINK } from '../../constants/constants';
 
 import styles from './About.module.scss';
 
-const About: React.FC = () => {
+export default function About() {
   return (
     <div className={styles.about}>
       <h1>About</h1>
@@ -19,7 +19,7 @@ const About: React.FC = () => {
           {' '}
           I&apos;m{' '}
           <Link
-            to={GITHUB_LINK}
+            href={GITHUB_LINK}
             target="_blank"
             rel="noopener noreferrer"
             className={styles.githubLink}
@@ -30,7 +30,7 @@ const About: React.FC = () => {
         </p>
       </div>
       <Link
-        to={REACT_COURSE_LINK}
+        href={REACT_COURSE_LINK}
         target="_blank"
         rel="noopener noreferrer"
         className={styles.courseLink}
@@ -39,6 +39,4 @@ const About: React.FC = () => {
       </Link>
     </div>
   );
-};
-
-export default About;
+}

@@ -3,11 +3,14 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import type { getCharactersArgs } from './types';
 import type { ApiResponse } from '@/types/types';
 
-const CACHE_TTL_SECONDS = Number(import.meta.env.VITE_CACHE_TTL_SECONDS) || 300;
+const BASE_URL =
+  process.env.NEXT_PUBLIC_BASE_PATH || 'https://rickandmortyapi.com/api';
+const CACHE_TTL_SECONDS =
+  Number(process.env.NEXT_PUBLIC_CACHE_TTL_SECONDS) || 300;
 
 export const rickAndMortyApi = createApi({
   reducerPath: 'rickAndMortyApi',
-  baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_API_URL }),
+  baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
   keepUnusedDataFor: CACHE_TTL_SECONDS,
   tagTypes: ['Characters', 'Details'],
   endpoints: (builder) => ({

@@ -1,6 +1,12 @@
+'use client';
+
 import { Component, type ErrorInfo, type ReactNode } from 'react';
 
+import Image from 'next/image';
+
 import styles from './ErrorBoundary.module.scss';
+
+import error from '@/assets/error.png';
 
 interface Props {
   children: ReactNode;
@@ -29,7 +35,7 @@ export class ErrorBoundary extends Component<Props, State> {
       return (
         <div className={styles.errorBoundary}>
           <h1 className={styles.title}>Something went wrong!</h1>
-          <img src="./error.png" alt="error" />
+          <Image src={error} alt="error" width={300} height={300} priority />
           <p>Go to the home page, please</p>
           <a href="/">Home</a>
         </div>

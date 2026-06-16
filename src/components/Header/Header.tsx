@@ -1,30 +1,28 @@
-import { NavLink } from 'react-router-dom';
+'use client';
 
 import styles from './Header.module.scss';
 
+import NavLink from '@/components/NavLink';
 import { useTheme } from '@/context/ThemeContext';
 
-const Header: React.FC = () => {
+export default function Header() {
   const { theme, toggleTheme } = useTheme();
+
   return (
     <header className={styles.header}>
       <nav>
         <NavLink
-          to="/"
-          className={({ isActive }) =>
-            isActive ? `${styles.navLink} ${styles.isActive}` : styles.navLink
-          }
-          viewTransition
+          href="/"
+          className={styles.navLink}
+          activeClassName={styles.isActive}
         >
           Home
-        </NavLink>{' '}
-        |{' '}
+        </NavLink>
+        {' | '}
         <NavLink
-          to="/about"
-          className={({ isActive }) =>
-            isActive ? `${styles.navLink} ${styles.isActive}` : styles.navLink
-          }
-          viewTransition
+          href="/about"
+          className={styles.navLink}
+          activeClassName={styles.isActive}
         >
           About
         </NavLink>
@@ -34,6 +32,4 @@ const Header: React.FC = () => {
       </button>
     </header>
   );
-};
-
-export default Header;
+}

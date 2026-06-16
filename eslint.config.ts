@@ -1,4 +1,3 @@
-// @ts-check
 import js from '@eslint/js';
 import { defineConfig, globalIgnores } from 'eslint/config';
 import eslintConfigPrettier from 'eslint-config-prettier/flat';
@@ -12,7 +11,7 @@ import tseslint from 'typescript-eslint';
 export default defineConfig([
   globalIgnores(['dist']),
   {
-    ignores: ['coverage/**', 'node_modules/**'],
+    ignores: ['.next/**', 'coverage/**', 'node_modules/**'],
   },
   {
     plugins: {
@@ -23,7 +22,7 @@ export default defineConfig([
       js.configs.recommended,
       tseslint.configs.recommended,
       reactHooks.configs.flat.recommended,
-      reactRefresh.configs.vite,
+      reactRefresh.configs.next,
       reactPlugin.configs.flat.recommended,
       reactPlugin.configs.flat['jsx-runtime'],
       eslintConfigPrettier,
@@ -65,6 +64,13 @@ export default defineConfig([
       'import/no-duplicates': 'error',
       'react/prop-types': 'off',
       'react/react-in-jsx-scope': 'off',
+      'react-refresh/only-export-components': [
+        'warn',
+        {
+          allowConstantExport: true,
+          allowExportNames: ['metadata', 'viewport', 'generateStaticParams'],
+        },
+      ],
       '@typescript-eslint/no-unused-vars': [
         'warn',
         { argsIgnorePattern: '^_' },

@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 import styles from './Footer.module.scss';
 
@@ -10,7 +10,7 @@ const Footer: React.FC = () => {
       &copy; 2026 by{' '}
       <Link
         className={styles.footerLink}
-        to={GITHUB_LINK}
+        href={GITHUB_LINK}
         target="_blank"
         rel="noopener noreferrer"
       >

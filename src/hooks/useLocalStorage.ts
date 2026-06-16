@@ -5,10 +5,11 @@ const useLocalStorage = (
   initialValue: string = ''
 ): [string, (value: string) => void] => {
   const [storedValue, setStoredValue] = useState(() => {
+    if (typeof window === 'undefined') return initialValue;
     try {
-      const item = localStorage.getItem(key);
+      const item = window.localStorage.getItem(key);
 
-      return item ? item : initialValue;
+      return item ? JSON.parse(item) : initialValue;
     } catch (error) {
       console.error(error);
 
@@ -18,7 +19,7 @@ const useLocalStorage = (
 
   useEffect(() => {
     try {
-      localStorage.setItem(key, storedValue);
+      window.localStorage.setItem(key, JSON.stringify(storedValue));
     } catch (error) {
       console.error(error);
     }

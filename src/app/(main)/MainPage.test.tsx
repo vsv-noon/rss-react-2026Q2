@@ -2,7 +2,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { vi, describe, it, expect } from 'vitest';
 
-import MainPage from './MainPage';
+import MainPage from './page';
 
 import { useAppSelector } from '@/store/hooks';
 

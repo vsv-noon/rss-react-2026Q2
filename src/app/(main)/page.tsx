@@ -1,21 +1,24 @@
+'use client';
+
 import { useState } from 'react';
 
-import { Outlet, useNavigate, useSearchParams } from 'react-router-dom';
+import { useRouter, useSearchParams } from 'next/navigation';
+// import { Outlet } from 'react-router-dom';
 
-import styles from './MainPage.module.scss';
+import styles from './page.module.scss';
 
 import ResultList from '@/components/ResultList';
 import SearchSection from '@/components/SearchSection';
 import SelectionActionBar from '@/components/SelectionActionBar/SelectionActionBar';
 
-const MainPage: React.FC = () => {
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
+export default function MainPage() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
   const [isCrashError, setIsCrashError] = useState<boolean>(false);
 
   const handleCloseCharacterDetails = () => {
-    navigate(`/?${searchParams.toString()}`);
+    router.push(`/?${searchParams?.toString()}`);
   };
 
   const handleCrashErrorClick = () => {
@@ -42,15 +45,10 @@ const MainPage: React.FC = () => {
         <div className={styles.paginationBlock}>{/* <Pagination /> */}</div>
         <div className={styles.outletContainer}>
           <ResultList />
-          <div onClick={(e) => e.stopPropagation()}>
-            <Outlet context={{ handleCloseCharacterDetails }} />
-          </div>
         </div>
       </>
 
       <SelectionActionBar />
     </div>
   );
-};
-
-export default MainPage;
+}

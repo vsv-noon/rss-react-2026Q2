@@ -1,6 +1,6 @@
 import { useEffect, useState, type ChangeEvent, type SubmitEvent } from 'react';
 
-import { useSearchParams } from 'react-router-dom';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 import styles from './SearchSection.module.scss';
 
@@ -8,7 +8,9 @@ import { DEFAULT_PAGE } from '@/constants/constants';
 import useLocalStorage from '@/hooks/useLocalStorage';
 
 const SearchSection: React.FC = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
 
   const [persistedSearch, setPersistedSearch] = useLocalStorage(
     'searchTerm',
@@ -17,17 +19,22 @@ const SearchSection: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>(persistedSearch);
 
   useEffect(() => {
-    const newParams = new URLSearchParams(searchParams);
-    if (!searchParams.has('page')) {
-      newParams.set('page', String(DEFAULT_PAGE));
+    const currentParams = new URLSearchParams(searchParams?.toString());
+    let hasChanged = false;
+
+    if (!currentParams.has('page')) {
+      currentParams.set('page', String(DEFAULT_PAGE));
+      hasChanged = true;
     }
 
-    if (persistedSearch) {
-      newParams.set('name', persistedSearch);
+    if (!currentParams.has('name') && persistedSearch) {
+      currentParams.set('name', persistedSearch);
     }
 
-    setSearchParams(newParams);
-  }, [searchParams, setSearchParams]);
+    if (hasChanged) {
+      router.push(`${pathname}?${currentParams.toString()}`);
+    }
+  }, [persistedSearch, pathname, router]);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
@@ -36,18 +43,20 @@ const SearchSection: React.FC = () => {
   const handleSubmit = (e: SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const newParams = new URLSearchParams(searchParams);
-    if (inputValue) {
-      newParams.set('name', inputValue);
+    const currentParams = new URLSearchParams(searchParams?.toString());
+    const trimmedValue = inputValue.trim();
+
+    if (trimmedValue) {
+      currentParams.set('name', trimmedValue);
     } else {
-      newParams.delete('name');
+      currentParams.delete('name');
     }
-    newParams.set('page', String(DEFAULT_PAGE));
+    currentParams.set('page', String(DEFAULT_PAGE));
 
-    setSearchParams(newParams);
+    router.push(`${pathname}?${currentParams.toString()}`);
 
-    setPersistedSearch(inputValue.trim());
-    setInputValue(inputValue.trim());
+    setPersistedSearch(trimmedValue);
+    setInputValue(trimmedValue);
   };
 
   return (

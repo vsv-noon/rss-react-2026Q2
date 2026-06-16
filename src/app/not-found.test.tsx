@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { describe, expect, it } from 'vitest';
 
-import NotFound from '@/pages/NotFound';
+import NotFound from '@/app/not-found';
 
 describe('NotFound Component', () => {
   it('should render the NotFound component with correct text', () => {

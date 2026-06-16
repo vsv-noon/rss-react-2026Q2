@@ -1,4 +1,4 @@
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'next/navigation';
 
 import styles from './Pagination.module.scss';
 
@@ -8,9 +8,9 @@ import { DEFAULT_PAGE } from '@/constants/constants';
 import { useNavigateWithParams } from '@/hooks/useNavigateWithParams';
 
 const Pagination: React.FC<PaginationProps> = ({ totalPages }) => {
-  const [searchParams] = useSearchParams();
+  const searchParams = useSearchParams();
   const { navigateToPage } = useNavigateWithParams();
-  const currentPage = Number(searchParams.get('page')) || DEFAULT_PAGE;
+  const currentPage = Number(searchParams?.get('page')) || DEFAULT_PAGE;
 
   const handlePageChange = (newPage: number) => {
     const validPage = Math.max(1, Math.min(newPage, totalPages));

@@ -1,4 +1,6 @@
-import { Link, useSearchParams } from 'react-router-dom';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 
 import styles from './Card.module.scss';
 
@@ -9,7 +11,7 @@ import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { toggleSelectItem } from '@/store/slices/selectCardsSlice/slice';
 
 const Card: React.FC<CardProps> = ({ character }) => {
-  const [searchParams] = useSearchParams();
+  const searchParams = useSearchParams();
   const dispatch = useAppDispatch();
   const isSelected = useAppSelector((state) =>
     state.selectedCards.selectedItems.find((obj) => obj.id === character.id)
@@ -29,11 +31,17 @@ const Card: React.FC<CardProps> = ({ character }) => {
       />
       <Link
         className={styles.card}
-        to={`details/${character.id}?${searchParams}`}
+        href={`details/${character.id}?${searchParams?.toString()}`}
         onClick={(e) => e.stopPropagation()}
-        viewTransition
       >
-        <img src={character.image} alt={character.name} />
+        <Image
+          src={character.image}
+          alt={character.name}
+          width={150}
+          height={150}
+          priority
+        />
+
         <h5>{character.name}</h5>
       </Link>
     </div>

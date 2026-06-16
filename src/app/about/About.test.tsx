@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { describe, it, expect } from 'vitest';
 
-import About from '@/pages/About';
+import About from '@/app/(about)';
 
 describe('About component', () => {
   it('should render the RS School React course link with correct href and text', () => {

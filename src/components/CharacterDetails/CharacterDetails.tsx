@@ -1,4 +1,7 @@
-import { useOutletContext, useParams } from 'react-router-dom';
+'use client';
+
+import Image from 'next/image';
+import { useParams, useSearchParams, useRouter } from 'next/navigation';
 
 import styles from './CharacterDetails.module.scss';
 
@@ -7,12 +10,18 @@ import { useRefreshCache } from '@/hooks/useRefreshCache';
 import { useGetCharacterByIdQuery } from '@/services/rickAndMortyApi';
 import { getErrorMessage } from '@/utils/getErrorMessage';
 
-const CharacterDetails: React.FC = () => {
-  const { id } = useParams();
+export default function CharacterDetails() {
+  const params = useParams();
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
-  const { handleCloseCharacterDetails } = useOutletContext<{
-    handleCloseCharacterDetails: () => void;
-  }>();
+  const id = params.id;
+
+  const handleCloseCharacterDetails = () => {
+    if (searchParams) {
+      router.push(`/?${searchParams.toString()}`);
+    }
+  };
 
   const { data, isLoading, isFetching, isError, error } =
     useGetCharacterByIdQuery(id);
@@ -70,7 +79,13 @@ const CharacterDetails: React.FC = () => {
               x
             </div>
             <div className={styles.image}>
-              <img src={data.image} alt={data.name} />
+              <Image
+                src={data.image}
+                alt={data.name}
+                width={300}
+                height={300}
+                priority
+              />
             </div>
             <h4>Name: {data.name}</h4>
             <p>Status: {data.status}</p>
@@ -81,6 +96,4 @@ const CharacterDetails: React.FC = () => {
       )}
     </div>
   );
-};
-
-export default CharacterDetails;
+}

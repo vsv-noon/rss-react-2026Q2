@@ -1,6 +1,8 @@
+'use client';
+
 import { useEffect } from 'react';
 
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'next/navigation';
 
 import Loader from '../Loader';
 import Pagination from '../Pagination';
@@ -14,10 +16,10 @@ import { useRefreshCache } from '@/hooks/useRefreshCache';
 import { useGetCharactersQuery } from '@/services/rickAndMortyApi';
 
 const ResultList: React.FC = () => {
-  const [searchParams] = useSearchParams();
-  const searchTerm = searchParams.get('name') || '';
-  const currentPage = Number(searchParams.get('page') || DEFAULT_PAGE);
-  const pageParam = searchParams.get('page');
+  const searchParams = useSearchParams();
+  const searchTerm = searchParams?.get('name') || '';
+  const currentPage = Number(searchParams?.get('page') || DEFAULT_PAGE);
+  const pageParam = searchParams?.get('page');
   const { navigateToPage } = useNavigateWithParams();
 
   const { data, isLoading, isFetching, isError, error } = useGetCharactersQuery(

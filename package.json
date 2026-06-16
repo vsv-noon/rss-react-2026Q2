@@ -8,18 +8,18 @@
     "npm": "11.12.1"
   },
   "scripts": {
-    "dev": "vite",
-    "dev:prod": "vite --mode production",
-    "build": "tsc -b && vite build",
-    "preview": "vite preview",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
     "lint:check": "eslint .",
     "lint:fix": "eslint --fix",
     "lint-staged": "lint-staged",
     "format:fix": "prettier --write .",
     "format:check": "prettier --check .",
     "prepare": "husky && chmod ug+x .husky/*",
-    "test": "cross-env NODE_OPTIONS='--no-experimental-webstorage' vitest",
-    "test:coverage": "cross-env NODE_OPTIONS='--no-experimental-webstorage' vitest run --coverage",
+    "test": "vitest run",
+    "test:watch": "vitest --watch",
+    "test:coverage": "vitest run --coverage",
     "test:ci": "vitest run"
   },
   "lint-staged": {
@@ -34,6 +34,7 @@
   "dependencies": {
     "@fontsource/inter": "^5.2.8",
     "@reduxjs/toolkit": "^2.12.0",
+    "next": "^16.2.9",
     "postcss": "^8.5.13",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
@@ -49,7 +50,6 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@types/react-router-dom": "^5.3.3",
-    "@vitejs/plugin-react": "^6.0.1",
     "@vitest/coverage-v8": "^4.1.5",
     "cross-env": "^10.1.0",
     "eslint": "^9.39.4",
@@ -67,7 +67,6 @@
     "sass-embedded": "^1.99.0",
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.58.2",
-    "vite": "^8.0.10",
     "vitest": "^4.1.5"
   }
 }
