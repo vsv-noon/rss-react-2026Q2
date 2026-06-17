@@ -19,8 +19,7 @@
     "prepare": "husky && chmod ug+x .husky/*",
     "test": "vitest run",
     "test:watch": "vitest --watch",
-    "test:coverage": "vitest run --coverage",
-    "test:ci": "vitest run"
+    "test:coverage": "vitest run --coverage"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [

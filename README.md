@@ -1,5 +1,3 @@
-[![React CI (Run Unit Tests)](https://github.com/vsv-noon/rss-react-2026Q2/actions/workflows/node.js.yml/badge.svg)](https://github.com/vsv-noon/rss-react-2026Q2/actions/workflows/node.js.yml)
-
 # Rick and Morty Client
 
 A feature-rich, responsive web application for browsing and managing characters from the Rick and Morty universe. Built as an educational project to master production-grade React workflows, comprehensive state management, and reliable unit testing.
