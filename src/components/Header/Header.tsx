@@ -1,5 +1,9 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
+
+import LocaleSwitcher from '../LocaleSwitcher';
+
 import styles from './Header.module.scss';
 
 import NavLink from '@/components/NavLink';
@@ -7,6 +11,7 @@ import { useTheme } from '@/context/ThemeContext';
 
 export default function Header() {
   const { theme, toggleTheme } = useTheme();
+  const t = useTranslations('Header');
 
   return (
     <header className={styles.header}>
@@ -16,7 +21,7 @@ export default function Header() {
           className={styles.navLink}
           activeClassName={styles.isActive}
         >
-          Home
+          {t('home')}
         </NavLink>
         {' | '}
         <NavLink
@@ -24,12 +29,16 @@ export default function Header() {
           className={styles.navLink}
           activeClassName={styles.isActive}
         >
-          About
+          {t('about')}
         </NavLink>
       </nav>
-      <button onClick={toggleTheme}>
-        {theme === 'light' ? '☀️ Light' : '🌙 Dark'}
-      </button>
+      <div className={styles.btns}>
+        <LocaleSwitcher />
+        <button onClick={toggleTheme}>
+          {/* {theme === 'light' ? '☀️ Light' : '🌙 Dark'} */}
+          {theme === 'light' ? `☀️ ${t('light')}` : `🌙 ${t('dark')}`}
+        </button>
+      </div>
     </header>
   );
 }

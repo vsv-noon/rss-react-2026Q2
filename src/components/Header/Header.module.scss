@@ -5,6 +5,7 @@
   padding: rem(5);
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .navLink {
@@ -31,4 +32,10 @@
 
 .isActive {
   color: var(--color-gray-400);
+}
+
+.btns {
+  display: flex;
+  align-items: center;
+  gap: rem(20);
 }

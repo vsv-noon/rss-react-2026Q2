@@ -1,32 +1,31 @@
-import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 
-import { GITHUB_LINK, REACT_COURSE_LINK } from '../../constants/constants';
+import { GITHUB_LINK, REACT_COURSE_LINK } from '../../../constants/constants';
 
 import styles from './About.module.scss';
 
+import { Link } from '@/i18n/navigation';
+
 export default function About() {
+  const t = useTranslations('AboutPage');
   return (
     <div className={styles.about}>
-      <h1>About</h1>
+      <h1>{t('title')}</h1>
       <div className={styles.text}>
-        <h3> What is this?</h3>
+        <h3> {t('aboutProject.title')}</h3>
+        <p>{t('aboutProject.text')}</p>
+        <h3>{t('introduction.title')}</h3>
         <p>
-          App to browse and search characters and show details from Rick & Morty
-          Tv show.
-        </p>
-        <h3>Who are you?</h3>
-        <p>
-          {' '}
-          I&apos;m{' '}
+          {t('introduction.textStart')}
           <Link
             href={GITHUB_LINK}
             target="_blank"
             rel="noopener noreferrer"
             className={styles.githubLink}
           >
-            Viacheslav
-          </Link>{' '}
-          a guy who likes to develop things.
+            {t('introduction.name')}
+          </Link>
+          {t('introduction.textEnd')}
         </p>
       </div>
       <Link
@@ -35,7 +34,7 @@ export default function About() {
         rel="noopener noreferrer"
         className={styles.courseLink}
       >
-        RS School React course
+        {t('courseLink')}
       </Link>
     </div>
   );

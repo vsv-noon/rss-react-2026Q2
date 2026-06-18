@@ -1,7 +1,8 @@
 'use client';
 
 import Image from 'next/image';
-import { useParams, useSearchParams, useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
 import styles from './CharacterDetails.module.scss';
 
@@ -12,15 +13,13 @@ import { getErrorMessage } from '@/utils/getErrorMessage';
 
 export default function CharacterDetails() {
   const params = useParams();
-  const router = useRouter();
-  const searchParams = useSearchParams();
+  const { back } = useRouter();
+  const t = useTranslations('CharacterDetails');
 
   const id = params.id;
 
   const handleCloseCharacterDetails = () => {
-    // if (searchParams) {
-    router.push(`/`, { scroll: false });
-    // }
+    back();
   };
 
   const { data, isLoading, isFetching, isError, error } =
@@ -50,18 +49,7 @@ export default function CharacterDetails() {
               className={styles.invalidateCacheBtn}
               onClick={() => refreshCacheCharacterDetails()}
             >
-              <p>
-                Invalidate Cache:<span>All Character Details</span>
-              </p>
-            </button>
-
-            <button
-              className={styles.invalidateCacheBtn}
-              onClick={() => refreshCacheCharacterDetails(id)}
-            >
-              <p>
-                Invalidate Cache:<span>{data.name}</span>
-              </p>
+              <p>{t('refresh')}</p>
             </button>
           </div>
 
@@ -87,10 +75,18 @@ export default function CharacterDetails() {
                 priority
               />
             </div>
-            <h4>Name: {data.name}</h4>
-            <p>Status: {data.status}</p>
-            <p>Species: {data.species}</p>
-            <p>Location: {data.location.name}</p>
+            <h4>
+              {t('character.name')}: {data.name}
+            </h4>
+            <p>
+              {t('character.status')}: {data.status}
+            </p>
+            <p>
+              {t('character.species')}: {data.species}
+            </p>
+            <p>
+              {t('character.location')}: {data.location.name}
+            </p>
           </div>
         </>
       )}

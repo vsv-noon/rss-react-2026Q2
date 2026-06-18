@@ -1,6 +1,7 @@
 import { useEffect, useState, type ChangeEvent, type SubmitEvent } from 'react';
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
 import styles from './SearchSection.module.scss';
 
@@ -11,6 +12,7 @@ const SearchSection: React.FC = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
+  const t = useTranslations('SearchSection');
 
   const [persistedSearch, setPersistedSearch] = useLocalStorage(
     'searchTerm',
@@ -66,11 +68,11 @@ const SearchSection: React.FC = () => {
         type="search"
         value={inputValue}
         onChange={handleInputChange}
-        placeholder="Search..."
+        placeholder={`${t('search')}...`}
         autoComplete="off"
       />
       <button type="submit" className={styles.button}>
-        Search
+        {t('search')}
       </button>
     </form>
   );

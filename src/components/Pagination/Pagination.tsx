@@ -1,4 +1,5 @@
 import { useSearchParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
 import styles from './Pagination.module.scss';
 
@@ -11,6 +12,7 @@ const Pagination: React.FC<PaginationProps> = ({ totalPages }) => {
   const searchParams = useSearchParams();
   const { navigateToPage } = useNavigateWithParams();
   const currentPage = Number(searchParams?.get('page')) || DEFAULT_PAGE;
+  const t = useTranslations('Pagination');
 
   const handlePageChange = (newPage: number) => {
     const validPage = Math.max(1, Math.min(newPage, totalPages));
@@ -36,7 +38,7 @@ const Pagination: React.FC<PaginationProps> = ({ totalPages }) => {
         {'<'}
       </button>
       <span>
-        Page {currentPage} from {totalPages}
+        {t('page')} {currentPage} {t('from')} {totalPages}
       </span>
       <button
         className={styles.button}

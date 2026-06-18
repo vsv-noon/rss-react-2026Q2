@@ -1,9 +1,11 @@
 import { ReactNode } from 'react';
 
-import Link, { LinkProps } from 'next/link';
 import { usePathname } from 'next/navigation';
 
-export interface NavLinkProps extends LinkProps {
+import { Link } from '@/i18n/navigation';
+
+export interface NavLinkProps {
+  href: string;
   children: ReactNode;
   activeClassName: string;
   className?: string;

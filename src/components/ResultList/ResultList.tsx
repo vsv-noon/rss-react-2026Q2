@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 
 import { useSearchParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
 import Loader from '../Loader';
 import Pagination from '../Pagination';
@@ -30,6 +31,7 @@ const ResultList: React.FC = () => {
   );
 
   const { refreshCacheCharacters } = useRefreshCache();
+  const t = useTranslations('ResultList');
 
   const isInvalidPage =
     (pageParam !== null && isNaN(Number(pageParam))) ||
@@ -49,7 +51,7 @@ const ResultList: React.FC = () => {
     <div className={styles.resultListContainer}>
       {isError && (
         <div className={styles.error}>
-          <p>Error fetching characters:</p>
+          <p>{t('error')}</p>
           <pre className={styles.jsonBlock}>
             {JSON.stringify(error, null, 2)}
           </pre>
@@ -64,7 +66,7 @@ const ResultList: React.FC = () => {
             className={styles.invalidateCacheBtn}
             onClick={() => refreshCacheCharacters()}
           >
-            Invalidate Cache
+            {t('refresh')}
           </button>
 
           <div className={styles.paginationBlock}>

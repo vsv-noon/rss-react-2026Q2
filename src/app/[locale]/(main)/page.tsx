@@ -2,8 +2,7 @@
 
 import { useState } from 'react';
 
-import { useRouter, useSearchParams } from 'next/navigation';
-// import { Outlet } from 'react-router-dom';
+import { useTranslations } from 'next-intl';
 
 import styles from './page.module.scss';
 
@@ -12,14 +11,8 @@ import SearchSection from '@/components/SearchSection';
 import SelectionActionBar from '@/components/SelectionActionBar/SelectionActionBar';
 
 export default function MainPage() {
-  const searchParams = useSearchParams();
-  const router = useRouter();
-
+  const t = useTranslations('Home');
   const [isCrashError, setIsCrashError] = useState<boolean>(false);
-
-  const handleCloseCharacterDetails = () => {
-    router.push(`/?${searchParams?.toString()}`);
-  };
 
   const handleCrashErrorClick = () => {
     setIsCrashError(true);
@@ -30,19 +23,15 @@ export default function MainPage() {
   }
 
   return (
-    <div
-      className={styles.mainPageContainer}
-      onClick={handleCloseCharacterDetails}
-    >
+    <div className={styles.mainPageContainer}>
       <SearchSection />
       <button className={styles.crashBtn} onClick={handleCrashErrorClick}>
-        Create an error!
+        {t('error')}
       </button>
 
-      <h1 className={styles.title}>Rick and Morty</h1>
+      <h1 className={styles.title}>{t('title')}</h1>
 
       <>
-        <div className={styles.paginationBlock}>{/* <Pagination /> */}</div>
         <div className={styles.outletContainer}>
           <ResultList />
         </div>

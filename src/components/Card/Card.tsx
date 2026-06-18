@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 
 import styles from './Card.module.scss';
@@ -7,6 +6,7 @@ import styles from './Card.module.scss';
 import type { CardProps } from './types';
 import type { Character } from '@/types/types';
 
+import { Link } from '@/i18n/navigation';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { toggleSelectItem } from '@/store/slices/selectCardsSlice/slice';
 
