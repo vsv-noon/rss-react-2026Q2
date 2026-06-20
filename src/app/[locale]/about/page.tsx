@@ -1,13 +1,27 @@
-import { useTranslations } from 'next-intl';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 
 import { GITHUB_LINK, REACT_COURSE_LINK } from '../../../constants/constants';
 
 import styles from './About.module.scss';
 
 import { Link } from '@/i18n/navigation';
+import { routing } from '@/i18n/routing';
 
-export default function About() {
-  const t = useTranslations('AboutPage');
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
+export default async function About({
+  params,
+}: {
+  params: { locale: string };
+}) {
+  const { locale } = params;
+
+  setRequestLocale(locale);
+
+  const t = await getTranslations({ locale, namespace: 'AboutPage' });
+
   return (
     <div className={styles.about}>
       <h1>{t('title')}</h1>
