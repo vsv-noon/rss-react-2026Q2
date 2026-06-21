@@ -8,8 +8,8 @@ import styles from './CharacterDetails.module.scss';
 
 import Loader from '@/components/Loader';
 import { useRefreshCache } from '@/hooks/useRefreshCache';
+import { getErrorMessage } from '@/lib/utils/getErrorMessage';
 import { useGetCharacterByIdQuery } from '@/services/rickAndMortyApi';
-import { getErrorMessage } from '@/utils/getErrorMessage';
 
 export default function CharacterDetails() {
   const params = useParams();

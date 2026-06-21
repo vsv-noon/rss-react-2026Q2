@@ -6,12 +6,11 @@ import { createPortal } from 'react-dom';
 
 import styles from './SelectionActionBar.module.scss';
 
-import type { FileItem } from './types';
-import type { CSVColumnConfig } from '@/utils/types';
-
+import { userCsvConfig } from '@/features/users/csvConfig';
+import { downloadCsvFile } from '@/lib/client/downloadCSV';
+import { convertToCsv } from '@/lib/utils/csv';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { clearSelection } from '@/store/slices/selectCardsSlice/slice';
-import { downloadCSV } from '@/utils/csvDownloader';
 
 const SelectionActionBar: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -27,20 +26,14 @@ const SelectionActionBar: React.FC = () => {
   };
 
   const handleDownload = (): void => {
-    const csvConfig: CSVColumnConfig<FileItem>[] = [
-      { key: 'id', label: 'ID' },
-      { key: 'name', label: 'Name' },
-      { key: 'status', label: 'Status' },
-      { key: 'species', label: 'Species' },
-      { key: 'url', label: 'url' },
-    ];
+    const csv = convertToCsv(selectedCharacters, userCsvConfig);
 
-    downloadCSV(
-      selectedCharacters,
-      csvConfig,
-      `${selectedCharacters.length}_selectedCharacters.csv`,
-      linkRef
-    );
+    if (csv) {
+      downloadCsvFile(
+        csv,
+        `${selectedCharacters.length}_selectedCharacters.csv`
+      );
+    }
   };
 
   return createPortal(
