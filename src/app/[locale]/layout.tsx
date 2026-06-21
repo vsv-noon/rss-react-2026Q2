@@ -7,7 +7,6 @@ import { getMessages, setRequestLocale } from 'next-intl/server';
 import styles from './layout.module.scss';
 import { Providers } from './providers';
 
-import ErrorBoundary from '@/components/ErrorBoundary/ErrorBoundary';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import { ThemeProvider } from '@/context/ThemeProvider';
@@ -38,22 +37,20 @@ export default async function LocaleLayout({
   return (
     <html lang={locale} data-scroll-behavior="smooth">
       <body>
-        <ErrorBoundary>
-          <NextIntlClientProvider messages={messages}>
-            <ThemeProvider>
-              <Providers>
-                <div className={styles.rootLayout}>
-                  <Header />
-                  <div className={styles.mainContainer}>
-                    <main className={styles.mainContent}>{children}</main>
-                    <aside className={styles.sidebarContent}>{sidebar}</aside>
-                  </div>
-                  <Footer />
+        <NextIntlClientProvider messages={messages}>
+          <ThemeProvider>
+            <Providers>
+              <div className={styles.rootLayout}>
+                <Header />
+                <div className={styles.mainContainer}>
+                  <main className={styles.mainContent}>{children}</main>
+                  <aside className={styles.sidebarContent}>{sidebar}</aside>
                 </div>
-              </Providers>
-            </ThemeProvider>
-          </NextIntlClientProvider>
-        </ErrorBoundary>
+                <Footer />
+              </div>
+            </Providers>
+          </ThemeProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

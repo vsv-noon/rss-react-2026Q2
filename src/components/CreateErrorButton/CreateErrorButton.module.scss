@@ -1,0 +1,12 @@
+.crashBtn {
+  position: absolute;
+  top: rem(80);
+  left: 0;
+  width: rem(150);
+  font-weight: 700;
+  color: var(--color-white);
+  background: var(--color-red-500);
+  padding: 8px 0;
+  border: transparent;
+  cursor: pointer;
+}

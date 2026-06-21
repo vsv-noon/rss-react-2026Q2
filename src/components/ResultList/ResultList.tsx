@@ -49,6 +49,7 @@ const ResultList: React.FC = () => {
 
   return (
     <div className={styles.resultListContainer}>
+      <h1 className={styles.title}>{t('title')}</h1>
       {isError && (
         <div className={styles.error}>
           <p>{t('error')}</p>

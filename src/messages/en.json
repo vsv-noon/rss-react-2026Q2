@@ -22,14 +22,13 @@
     },
     "refresh": "Refresh"
   },
+  "CreateErrorButton": {
+    "error": "Create an error!",
+    "message": "I crashed!"
+  },
   "ErrorBoundary": {
     "title": "Something went wrong!",
-    "goHome": "Go to the home page, please",
-    "home": "home"
-  },
-  "Home": {
-    "title": "Rick and Morty",
-    "error": "Create an error!"
+    "button": "Try again"
   },
   "Header": {
     "about": "About",
@@ -51,6 +50,7 @@
     "from": "from"
   },
   "ResultList": {
+    "title": "Rick and Morty",
     "refresh": "Refresh",
     "error": "Error fetching characters: "
   },

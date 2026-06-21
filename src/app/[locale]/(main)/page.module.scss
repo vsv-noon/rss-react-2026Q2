@@ -7,31 +7,6 @@
   flex-grow: 1;
 }
 
-.title {
-  font-size: rem(30);
-  line-height: rem(36);
-  font-weight: 700;
-  margin: rem(30) 0;
-}
-
-.crashBtn {
-  position: absolute;
-  top: rem(80);
-  left: 0;
-  width: rem(150);
-  font-weight: 700;
-  color: var(--color-white);
-  background: var(--color-red-500);
-  padding: 8px 0;
-  border: transparent;
-  cursor: pointer;
-}
-
-.paginationBlock {
-  display: flex;
-  justify-content: center;
-}
-
 .outletContainer {
   display: flex;
   transition: all 0.3s ease-in-out;

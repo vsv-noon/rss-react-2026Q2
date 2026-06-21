@@ -1,5 +1,8 @@
 .resultListContainer {
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   flex-grow: 1;
 }
 
@@ -14,7 +17,7 @@
   font-size: rem(30);
   line-height: rem(36);
   font-weight: 700;
-  margin-bottom: rem(20);
+  margin: rem(30) 0;
 }
 
 .charactersList {
