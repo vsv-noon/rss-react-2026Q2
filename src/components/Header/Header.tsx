@@ -1,7 +1,10 @@
 'use client';
 
+import { Suspense } from 'react';
+
 import { useTranslations } from 'next-intl';
 
+import Loader from '../Loader';
 import LocaleSwitcher from '../LocaleSwitcher';
 
 import styles from './Header.module.scss';
@@ -33,7 +36,9 @@ export default function Header() {
         </NavLink>
       </nav>
       <div className={styles.btns}>
-        <LocaleSwitcher />
+        <Suspense fallback={<Loader variant="fullscreen" />}>
+          <LocaleSwitcher />
+        </Suspense>
         <button onClick={toggleTheme}>
           {/* {theme === 'light' ? '☀️ Light' : '🌙 Dark'} */}
           {theme === 'light' ? `☀️ ${t('light')}` : `🌙 ${t('dark')}`}
