@@ -1,12 +1,12 @@
 export type ApiResponse = {
-  info?: {
+  info: {
     count: number;
     pages: number;
     next: string | null;
     prev: string | null;
   };
-  results?: Character[];
-  error?: string;
+  results: Character[];
+  error: string;
 };
 
 export type Character = {

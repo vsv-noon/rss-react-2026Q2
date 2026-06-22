@@ -53,17 +53,3 @@
   overflow: auto;
   white-space: pre-wrap;
 }
-
-.invalidateCacheBtn {
-  height: rem(40);
-  border: transparent;
-  border-radius: rem(8);
-  padding: rem(8) rem(20);
-  background-color: var(--color-gray-300);
-  cursor: pointer;
-  transition: all 0.3s ease-in-out;
-}
-
-.invalidateCacheBtn:hover {
-  background-color: var(--color-gray-400);
-}

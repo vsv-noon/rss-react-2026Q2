@@ -1,4 +1,6 @@
-import { useSearchParams } from 'next/navigation';
+'use client';
+
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 
 import styles from './Pagination.module.scss';
@@ -10,6 +12,7 @@ import { useNavigateWithParams } from '@/hooks/useNavigateWithParams';
 
 const Pagination: React.FC<PaginationProps> = ({ totalPages }) => {
   const searchParams = useSearchParams();
+
   const { navigateToPage } = useNavigateWithParams();
   const currentPage = Number(searchParams?.get('page')) || DEFAULT_PAGE;
   const t = useTranslations('Pagination');

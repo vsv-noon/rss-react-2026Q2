@@ -1,86 +1,37 @@
-'use client';
+import { getTranslations } from 'next-intl/server';
 
-import { useEffect } from 'react';
-
-import { useSearchParams } from 'next/navigation';
-import { useTranslations } from 'next-intl';
-
-import Loader from '../Loader';
+import Card from '../Card';
 import Pagination from '../Pagination';
+import RefreshButton from '../RefreshButton';
 
 import styles from './ResultList.module.scss';
 
-import Card from '@/components/Card';
-import { DEFAULT_PAGE } from '@/constants/constants';
-import { useNavigateWithParams } from '@/hooks/useNavigateWithParams';
-import { useRefreshCache } from '@/hooks/useRefreshCache';
-import { useGetCharactersQuery } from '@/services/rickAndMortyApi';
+import { routing } from '@/i18n/routing';
+import { ApiResponse } from '@/types/types';
 
-const ResultList: React.FC = () => {
-  const searchParams = useSearchParams();
-  const searchTerm = searchParams?.get('name') || '';
-  const currentPage = Number(searchParams?.get('page') || DEFAULT_PAGE);
-  const pageParam = searchParams?.get('page');
-  const { navigateToPage } = useNavigateWithParams();
+export interface ResultListProps {
+  data: ApiResponse;
+  name: string;
+  page: number;
+}
 
-  const { data, isLoading, isFetching, isError, error } = useGetCharactersQuery(
-    {
-      name: searchTerm,
-      page: currentPage,
-    }
-  );
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
 
-  const { refreshCacheCharacters } = useRefreshCache();
-  const t = useTranslations('ResultList');
-
-  const isInvalidPage =
-    (pageParam !== null && isNaN(Number(pageParam))) ||
-    currentPage < DEFAULT_PAGE;
-
-  useEffect(() => {
-    if (isInvalidPage) {
-      navigateToPage(DEFAULT_PAGE);
-    }
-  }, [isInvalidPage, navigateToPage]);
-
-  if (isLoading) {
-    return <Loader variant="fullscreen" />;
-  }
+export default async function ResultList({ data }: ResultListProps) {
+  const t = await getTranslations('ResultList');
 
   return (
     <div className={styles.resultListContainer}>
-      <h1 className={styles.title}>{t('title')}</h1>
-      {isError && (
-        <div className={styles.error}>
-          <p>{t('error')}</p>
-          <pre className={styles.jsonBlock}>
-            {JSON.stringify(error, null, 2)}
-          </pre>
-        </div>
-      )}
-
-      {isFetching && <Loader variant="overlay" />}
-
-      {!isFetching && !isError && data?.results && data?.info && (
-        <div className={styles.resultList}>
-          <button
-            className={styles.invalidateCacheBtn}
-            onClick={() => refreshCacheCharacters()}
-          >
-            {t('refresh')}
-          </button>
-
-          <div className={styles.paginationBlock}>
+      <h1>{t('title')}</h1>
+      {data && (
+        <div>
+          <RefreshButton />
+          <div>
             <Pagination totalPages={data.info.pages} />
           </div>
-
-          <div
-            className={styles.charactersList}
-            style={{
-              opacity: isFetching ? 0.5 : 1,
-              transition: 'opacity 0.2s',
-            }}
-          >
+          <div className={styles.charactersList}>
             {data.results.map((character) => (
               <Card key={character.id} character={character} />
             ))}
@@ -89,6 +40,4 @@ const ResultList: React.FC = () => {
       )}
     </div>
   );
-};
-
-export default ResultList;
+}
