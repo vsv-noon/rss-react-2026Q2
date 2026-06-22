@@ -1,0 +1,63 @@
+{
+  "AboutPage": {
+    "title": "About",
+    "aboutProject": {
+      "title": "What is this?",
+      "text": "App to browse and search characters and show details from Rick & Morty Tv show."
+    },
+    "introduction": {
+      "title": "Who are you?",
+      "textStart": "I'm ",
+      "textEnd": " a guy who likes to develop things.",
+      "name": "Viacheslav"
+    },
+    "courseLink": "RS School React course"
+  },
+  "CharacterDetails": {
+    "character": {
+      "location": "Location",
+      "name": "Name",
+      "species": "Species",
+      "status": "Status"
+    },
+    "refresh": "Refresh"
+  },
+  "CreateErrorButton": {
+    "error": "Create an error!",
+    "message": "I crashed!"
+  },
+  "ErrorBoundary": {
+    "title": "Something went wrong!",
+    "button": "Try again"
+  },
+  "Header": {
+    "about": "About",
+    "home": "Home",
+    "dark": "Dark",
+    "light": "Light"
+  },
+  "LocalSwitcher": {
+    "label": "Change language",
+    "en": "Eng",
+    "ru": "Rus"
+  },
+  "NotFound": {
+    "404": "404 - Page Not Found",
+    "home": "Home"
+  },
+  "Pagination": {
+    "page": "Page",
+    "from": "from"
+  },
+  "RefreshButton": {
+    "refresh": "Refresh"
+  },
+  "ResultList": {
+    "title": "Rick and Morty",
+    "refresh": "Refresh",
+    "error": "Error fetching characters: "
+  },
+  "SearchSection": {
+    "search": "Search"
+  }
+}

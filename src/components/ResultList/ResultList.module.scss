@@ -1,0 +1,55 @@
+.resultListContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.resultList {
+  flex-grow: 1;
+  margin: 0 auto;
+  text-align: center;
+  padding: rem(20);
+}
+
+.title {
+  font-size: rem(30);
+  line-height: rem(36);
+  font-weight: 700;
+  margin: rem(30) 0;
+}
+
+.charactersList {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: rem(15);
+}
+
+.paginationBlock {
+  margin-bottom: rem(20);
+}
+
+.error {
+  padding: rem(16);
+  background-color: #fff5f5;
+  color: #c53030;
+
+  p {
+    font-weight: bold;
+    margin-bottom: rem(8);
+  }
+}
+
+.jsonBlock {
+  margin: 0;
+  padding: rem(12);
+  background-color: #1a202c;
+  color: #f7fafc;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: rem(14);
+  overflow: auto;
+  white-space: pre-wrap;
+}

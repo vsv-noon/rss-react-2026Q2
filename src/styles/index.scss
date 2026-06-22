@@ -1,0 +1,6 @@
+@use './reset';
+@use './theme';
+
+body {
+  font-family: var(--main-font);
+}

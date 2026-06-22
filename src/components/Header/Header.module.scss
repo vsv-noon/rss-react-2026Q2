@@ -1,0 +1,41 @@
+.header {
+  max-width: rem(1280);
+  width: 100%;
+  margin: 0 auto;
+  padding: rem(5);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navLink {
+  text-decoration: none;
+  color: var(--text-color);
+}
+
+.header button {
+  padding: rem(5) rem(10);
+  border: transparent;
+  border-radius: rem(8);
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  color: var(--text-color);
+}
+
+.header button:hover {
+  background-color: var(--color-gray-400);
+}
+
+:global([data-theme='dark']) .header button {
+  background-color: var(--background-color-gray);
+}
+
+.isActive {
+  color: var(--color-gray-400);
+}
+
+.btns {
+  display: flex;
+  align-items: center;
+  gap: rem(20);
+}

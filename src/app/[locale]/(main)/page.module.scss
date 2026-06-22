@@ -1,0 +1,13 @@
+.mainPageContainer {
+  position: relative;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.outletContainer {
+  display: flex;
+  transition: all 0.3s ease-in-out;
+}

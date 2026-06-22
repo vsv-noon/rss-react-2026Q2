@@ -1,0 +1,47 @@
+.about {
+  max-width: rem(1280);
+  margin: 0 auto;
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: rem(20);
+}
+
+.about h1 {
+  margin-top: rem(20);
+}
+
+.about h3 {
+  margin-bottom: rem(5);
+}
+
+.about p {
+  margin-bottom: rem(50);
+}
+
+.githubLink {
+  color: var(--color-gray-500);
+  text-decoration: underline;
+  transition: all 0.3s ease-in-out;
+}
+
+.githubLink:hover {
+  color: var(--color-amber-500);
+  text-decoration: none;
+}
+
+.courseLink {
+  color: #000;
+  text-decoration: none;
+  background-color: var(--color-amber-300);
+  border-radius: rem(8);
+  margin-bottom: rem(50);
+  padding: rem(8) rem(20);
+  transition: all 0.3s ease-in-out;
+}
+
+.courseLink:hover {
+  background-color: var(--color-amber-500);
+}

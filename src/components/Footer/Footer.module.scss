@@ -1,0 +1,11 @@
+.footer {
+  max-width: rem(1280);
+  margin: 0 auto;
+  text-align: center;
+  padding: rem(10) 0;
+}
+
+.footerLink {
+  color: var(--text-color);
+  text-decoration: underline;
+}

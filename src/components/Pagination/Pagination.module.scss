@@ -1,0 +1,25 @@
+.pagination {
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: rem(10);
+  padding: rem(5);
+  width: max-content;
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: rem(35);
+  width: rem(35);
+  border: 1px solid var(--color-gray-500);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.button:disabled {
+  border: 1px solid var(--color-gray-300);
+  cursor: not-allowed;
+}

@@ -1,0 +1,63 @@
+{
+  "AboutPage": {
+    "title": "О проекте",
+    "aboutProject": {
+      "title": "Что это?",
+      "text": "Приложение для просмотра и поиска персонажей и подробной информации о сериале «Рик и Морти»."
+    },
+    "introduction": {
+      "title": "Кто я?",
+      "textStart": "Меня зовут ",
+      "textEnd": " и мне нравится программировать.",
+      "name": "Вячеслав"
+    },
+    "courseLink": "Курс React RS School"
+  },
+  "CharacterDetails": {
+    "character": {
+      "location": "Локация",
+      "name": "Имя",
+      "species": "Вид",
+      "status": "Статус"
+    },
+    "refresh": "Обновить"
+  },
+  "CreateErrorButton": {
+    "error": "Создать ошибку!",
+    "message": "Приложение сломалось!"
+  },
+  "ErrorBoundary": {
+    "title": "Что-то пошло не так!",
+    "button": "Попробуйте снова"
+  },
+  "Header": {
+    "about": "О проекте",
+    "home": "На главную",
+    "dark": "Тёмная",
+    "light": "Светлая"
+  },
+  "LocalSwitcher": {
+    "label": "Сменить язык",
+    "en": "Анг",
+    "ru": "Рус"
+  },
+  "NotFound": {
+    "404": "404 - Страница не найдена",
+    "home": "На главную"
+  },
+  "Pagination": {
+    "page": "Страница",
+    "from": "из"
+  },
+  "RefreshButton": {
+    "refresh": "Обновить"
+  },
+  "ResultList": {
+    "title": "Рик и Морти",
+    "refresh": "Обновить",
+    "error": "Ошибка загрузки персонажа: "
+  },
+  "SearchSection": {
+    "search": "Поиск"
+  }
+}
