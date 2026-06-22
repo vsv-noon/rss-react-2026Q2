@@ -49,6 +49,9 @@
     "page": "Страница",
     "from": "из"
   },
+  "RefreshButton": {
+    "refresh": "Обновить"
+  },
   "ResultList": {
     "title": "Рик и Морти",
     "refresh": "Обновить",

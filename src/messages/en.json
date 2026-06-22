@@ -49,6 +49,9 @@
     "page": "Page",
     "from": "from"
   },
+  "RefreshButton": {
+    "refresh": "Refresh"
+  },
   "ResultList": {
     "title": "Rick and Morty",
     "refresh": "Refresh",

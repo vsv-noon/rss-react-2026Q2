@@ -4,6 +4,8 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 
+import RefreshButton from '../RefreshButton';
+
 import styles from './CharacterDetails.module.scss';
 
 import Loader from '@/components/Loader';
@@ -29,6 +31,7 @@ export default function CharacterDetailsClient({
 
   return (
     <div className={styles.detailsCard}>
+      <RefreshButton />
       <div className={styles.buttonBlock}>
         <div className={styles.closeBtn} onClick={handleCloseCharacterDetails}>
           x
