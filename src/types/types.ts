@@ -6,7 +6,7 @@ export type ApiResponse = {
     prev: string | null;
   };
   results: Character[];
-  error: string;
+  error?: string;
 };
 
 export type Character = {

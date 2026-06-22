@@ -10,7 +10,6 @@ export interface GetCharactersParams {
 export const getCharacters = cache(
   async ({ name = '', page = 1 }: GetCharactersParams) => {
     const url = `${BASE_URL}/character?name=${name}&page=${page}`;
-    console.log(url);
 
     const res = await fetch(url, {
       next: {
@@ -38,3 +37,15 @@ export const getCharacters = cache(
     };
   }
 );
+
+export async function getCharacterById(id: number) {
+  const res = await fetch(`${BASE_URL}/character/${id}`, {
+    cache: 'no-store',
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch character');
+  }
+
+  return res.json();
+}

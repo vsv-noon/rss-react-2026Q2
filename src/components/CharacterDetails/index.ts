@@ -1,1 +1,1 @@
-export { default } from './CharacterDetails';
+export { default } from './CharacterDetailsClient';
